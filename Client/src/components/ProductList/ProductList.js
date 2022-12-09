@@ -1,24 +1,19 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Badge } from '@mui/material';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
-import { productsJson } from '../../MockData/products';
 import ProductCard from '../ProductCard/ProductCard';
+import { CartContext } from '../../context/CartContext';
+import { ProductsContext } from '../../context/ProductsContext';
 
 import './ProductList.css';
-import { CartContext } from '../../context/CartContext';
 
 function ProductList() {
     let navigate = useNavigate();
     const { cartProducts, setCartProducts } = useContext(CartContext);
 
-    const [products, setProducts] = useState([]);
-
-    useEffect(() => {
-        // Preparation for when there will be DB
-        setProducts(productsJson);
-    }, []);
+    const { products } = useContext(ProductsContext);
 
     const handleProductClick = id => {
         if (!id) return;

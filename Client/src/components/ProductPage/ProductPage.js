@@ -1,22 +1,23 @@
 import { Button } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import ArrowBackIcon from '@mui/icons-material/ArrowForward';
 
-import { productsJson } from '../../MockData/products';
+import { ProductsContext } from '../../context/ProductsContext';
 
 import './ProductPage.css';
 
 function ProductPage() {
     let { productId } = useParams();
+    const { products } = useContext(ProductsContext);
     const [product, setProduct] = useState(null);
     let navigate = useNavigate();
 
     useEffect(() => {
         if (!productId) return setProduct(null);
 
-        setProduct(productsJson.find(p => p.id === parseInt(productId)));
-    }, [productId]);
+        setProduct(products.find(p => p.id === parseInt(productId)));
+    }, [productId, products]);
 
     return product ? (
         <div className="product-page">

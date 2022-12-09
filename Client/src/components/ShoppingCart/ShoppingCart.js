@@ -3,23 +3,26 @@ import { useNavigate } from 'react-router-dom';
 import ArrowBackIcon from '@mui/icons-material/ArrowForward';
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
 import ClearIcon from '@mui/icons-material/Clear';
+import { Button, TextField } from '@mui/material';
 
 import { CartContext } from '../../context/CartContext';
-import { productsJson } from '../../MockData/products';
 import ProductCard from '../ProductCard/ProductCard';
+import { ProductsContext } from '../../context/ProductsContext';
 
 import './ShoppingCart.css';
-import { Button } from '@mui/material';
 
 function ShoppingCart() {
     let navigate = useNavigate();
     const { cartProducts, setCartProducts } = useContext(CartContext);
-    const [products, setProducts] = useState([]);
+    const { products } = useContext(ProductsContext);
     const [finalCartProducts, setFinalCartProducts] = useState([]);
+    const [formFields, setFormFields] = useState({
+        fullName: '',
+        id: '',
+        address: '',
+    });
 
     useEffect(() => {
-        setProducts(productsJson);
-
         let finalProducts = [];
 
         cartProducts.forEach(productId => {
@@ -49,13 +52,19 @@ function ShoppingCart() {
 
     const onBuy = e => {
         e.preventDefault();
-
+        console.log('form fields: ', formFields);
         console.log('Products to buy: ', finalCartProducts);
     };
 
     const totalCartPrice = finalCartProducts
         ?.map(product => product.price)
         .reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+
+    const onChangeInput = e => {
+        setFormFields(prevState => {
+            return { ...prevState, [e.target.name]: e.target.value };
+        });
+    };
 
     return (
         <form onSubmit={onBuy} className="shopping-cart">
@@ -97,6 +106,32 @@ function ShoppingCart() {
                     >
                         בצע רכישה
                     </Button>
+                </div>
+                <div className="input-details">
+                    <TextField
+                        name="fullName"
+                        className="input"
+                        variant="outlined"
+                        onChange={onChangeInput}
+                        label="שם מלא"
+                        value={formFields.fullName}
+                    />
+                    <TextField
+                        name="id"
+                        className="input"
+                        variant="outlined"
+                        onChange={onChangeInput}
+                        label="תעות זהות"
+                        value={formFields.id}
+                    />
+                    <TextField
+                        name="address"
+                        className="input"
+                        variant="outlined"
+                        onChange={onChangeInput}
+                        label="כתובת"
+                        value={formFields.address}
+                    />
                 </div>
                 {finalCartProducts.map(product => (
                     <div

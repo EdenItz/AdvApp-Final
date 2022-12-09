@@ -36,3 +36,9 @@
 .shopping-cart .actions > button {
     margin-inline-end: 1rem;
 }
+
+.shopping-cart .input-details {
+    padding: 2rem 0;
+    display: flex;
+    justify-content: space-between;
+}
