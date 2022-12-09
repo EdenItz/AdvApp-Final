@@ -1,5 +1,8 @@
+import { Button } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import ArrowBackIcon from '@mui/icons-material/ArrowForward';
+
 import { productsJson } from '../../MockData/products';
 
 import './ProductPage.css';
@@ -17,9 +20,15 @@ function ProductPage() {
 
     return product ? (
         <div className="product-page">
-            <div className="back-button" onClick={() => navigate(-1)}>
-                {'<'}- חזרה לרשימה
-            </div>
+            <Button
+                variant="contained"
+                color="primary"
+                startIcon={<ArrowBackIcon />}
+                className="back-button"
+                onClick={() => navigate(-1)}
+            >
+                חזור
+            </Button>
             <h2 className="product-page-title">{product.name}</h2>
             <img
                 className="product-img"
