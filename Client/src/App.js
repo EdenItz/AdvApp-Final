@@ -1,22 +1,27 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { IconButton } from '@mui/material';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
+import { CartContext } from './context/CartContext';
 import ProductPage from './components/ProductPage/ProductPage';
 import ProductList from './components/ProductList/ProductList';
+import ShoppingCart from './components/ShoppingCart/ShoppingCart';
 
 function App() {
+    const [cartProducts, setCartProducts] = useState([]);
+
     return (
-        <Router>
-            <IconButton color="primary">
-                <ShoppingCartIcon />
-            </IconButton>
-            <Routes>
-                <Route path="/" element={<ProductList />} />
-                <Route path="product/:productId" element={<ProductPage />} />
-            </Routes>
-        </Router>
+        <CartContext.Provider value={{ cartProducts, setCartProducts }}>
+            <Router>
+                <Routes>
+                    <Route path="/" element={<ProductList />} />
+                    <Route
+                        path="product/:productId"
+                        element={<ProductPage />}
+                    />
+                    <Route path="cart" element={<ShoppingCart />} />
+                </Routes>
+            </Router>
+        </CartContext.Provider>
     );
 }
 

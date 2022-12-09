@@ -24,6 +24,19 @@ a {
     transform: translate(-50%, -50%);
 }
 
+.back-button {
+    position: fixed !important;
+    top: 2rem !important;
+    right: 2rem !important;
+    font-size: 1.25rem !important;
+    font-weight: 500 !important;
+    color: white !important;
+}
+
+.back-button svg {
+    padding-inline-end: 0.5rem;
+}
+
 @media screen and(max-width: 1275px) {
     #root,
     body,

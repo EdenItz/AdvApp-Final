@@ -12,20 +12,41 @@
     height: 10rem;
     cursor: pointer;
 }
-.product-card:hover{
+
+.product-card .add-to-cart {
+    font-size: 1.5rem;
+    height: 50%;
+}
+
+.product-card .add-to-cart svg {
+    padding-inline-start: 0.5rem;
+    font-size: 1.5rem;
+}
+
+.product-card:hover {
     background-color: rgb(9, 37, 66, 0.5);
 }
 
-.product-card .product-img{
+.product-card .product-img {
     height: 10rem;
     width: auto;
 }
 
-.product-card .product-info{
-    font-size: 1.5rem
+.product-card .product-info {
+    font-size: 1.5rem;
 }
 
 .product-card .product-price {
     direction: ltr;
     text-align: start;
+}
+
+.product-card .remove-from-cart {
+    font-size: 1.5rem;
+    height: 50%;
+}
+
+.product-card .remove-from-cart svg {
+    padding-inline-start: 0.5rem;
+    font-size: 1.5rem;
 }
