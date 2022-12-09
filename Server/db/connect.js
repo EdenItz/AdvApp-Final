@@ -1,10 +1,9 @@
 const mongoose = require('mongoose');
 
-const connectDB = (url) => {
+const connectDB = url => {
     mongoose.connect(url, {
         useNewUrlParser: true,
-        // TODO: Db Name
-        dbName: 'AdvProg',
+        dbName: 'AdvApp',
     });
     console.log('Connected to ATLAS DB');
 
