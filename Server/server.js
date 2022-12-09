@@ -1,7 +1,9 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const productDB = require('./controllers/product');
+const orderDB = require('./controllers/order');
 const product = require('./routes/product');
+const order = require('./routes/order');
 const connectDB = require('./db/connect');
 const cors = require('./middleware/cors');
 
@@ -26,6 +28,7 @@ app.use(
 );
 
 app.use('/products', product);
+app.use('/orders', order);
 
 const onStartup = async () => {
     connectDB(URI);

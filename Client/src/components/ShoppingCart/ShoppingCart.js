@@ -4,10 +4,13 @@ import ArrowBackIcon from '@mui/icons-material/ArrowForward';
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
 import ClearIcon from '@mui/icons-material/Clear';
 import { Button, TextField } from '@mui/material';
+import LoadingButton from '@mui/lab/LoadingButton';
+import Swal from 'sweetalert2';
 
 import { CartContext } from '../../context/CartContext';
 import ProductCard from '../ProductCard/ProductCard';
 import { ProductsContext } from '../../context/ProductsContext';
+import { upsertOrder } from '../../actions/order';
 
 import './ShoppingCart.css';
 
@@ -16,9 +19,9 @@ function ShoppingCart() {
     const { cartProducts, setCartProducts } = useContext(CartContext);
     const { products } = useContext(ProductsContext);
     const [finalCartProducts, setFinalCartProducts] = useState([]);
+    const [loading, setLoading] = useState(false);
     const [formFields, setFormFields] = useState({
         fullName: '',
-        id: '',
         address: '',
     });
 
@@ -39,9 +42,14 @@ function ShoppingCart() {
     }, [cartProducts, products]);
 
     const handleRemoveFromCart = id => {
-        setCartProducts(prevState =>
-            prevState.filter(productId => productId !== id),
-        );
+        let idx = cartProducts.findIndex(p => p === id);
+
+        if (!cartProducts[idx]) return;
+
+        let newCartProducts = [...cartProducts];
+        newCartProducts.splice(idx, 1);
+
+        setCartProducts(newCartProducts);
     };
 
     const handleProductClick = id => {
@@ -50,10 +58,24 @@ function ShoppingCart() {
         navigate(`/product/${id}`);
     };
 
-    const onBuy = e => {
+    const onBuy = async e => {
+        setLoading(true);
         e.preventDefault();
         console.log('form fields: ', formFields);
         console.log('Products to buy: ', finalCartProducts);
+
+        const order = {
+            ...formFields,
+            productIds: finalCartProducts.map(product => product.id),
+        };
+
+        let orderId = await upsertOrder(order);
+
+        orderId
+            ? Swal.fire(`איזה כיף!`, `הזמנה בוצעה בהצלחה`, 'success')
+            : Swal.fire(`לא הצלחנו לבצע את ההזמנה, נסה שנית`, '', 'error');
+
+        setLoading(false);
     };
 
     const totalCartPrice = finalCartProducts
@@ -97,15 +119,16 @@ function ShoppingCart() {
                     >
                         נקה סל קניות
                     </Button>
-                    <Button
+                    <LoadingButton
                         variant="contained"
                         color="primary"
                         endIcon={<ShoppingBasketIcon />}
                         className="buy-button"
                         type="submit"
+                        loading={loading}
                     >
                         בצע רכישה
-                    </Button>
+                    </LoadingButton>
                 </div>
                 <div className="input-details">
                     <TextField
@@ -117,14 +140,6 @@ function ShoppingCart() {
                         value={formFields.fullName}
                     />
                     <TextField
-                        name="id"
-                        className="input"
-                        variant="outlined"
-                        onChange={onChangeInput}
-                        label="תעות זהות"
-                        value={formFields.id}
-                    />
-                    <TextField
                         name="address"
                         className="input"
                         variant="outlined"
@@ -133,9 +148,10 @@ function ShoppingCart() {
                         value={formFields.address}
                     />
                 </div>
-                {finalCartProducts.map(product => (
+                {finalCartProducts.map((product, index) => (
                     <div
-                        key={product.id}
+                        key={index}
+                        id={product.id}
                         onClick={() => handleProductClick(product.id)}
                     >
                         <ProductCard

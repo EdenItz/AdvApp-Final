@@ -1,4 +1,3 @@
-// import authHeader from '../api/auth-header';
 import products from '../api/products';
 
 export const getProducts = async () => {
@@ -13,9 +12,7 @@ export const getProducts = async () => {
 
 export const getProductById = async productId => {
     try {
-        const { data } = await products.get(`/${productId}`, {
-            // headers: authHeader(),
-        });
+        const { data } = await products.get(`/${productId}`, {});
 
         return data;
     } catch (e) {
