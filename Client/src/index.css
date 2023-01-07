@@ -1,85 +1,101 @@
-#root,
-body,
-html {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-size: 16px;
-    height: 100%;
-    overflow: hidden;
-    margin: 0;
-    background-color: #15202b;
-    color: white;
-    direction: rtl;
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800;900&display=swap");
+@import "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css";
+* {
+  font-family: "Outfit", sans-serif;
 }
 
-a {
-    text-decoration: none;
+.boldTitle {
+  font-weight: 600;
 }
 
-.loader{
-    margin-top: 20%;
+body {
+  background-color: #f5f5f5;
+  transition: background-color 0.2s linear;
 }
 
-.center {
-    margin: 0;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    margin-right: -50%;
-    transform: translate(-50%, -50%);
+.btn {
+  border-radius: 50px !important;
 }
 
-.back-button {
-    position: fixed !important;
-    top: 2rem !important;
-    right: 2rem !important;
-    font-size: 1.25rem !important;
-    font-weight: 500 !important;
+/* Shine Effect */
+
+.shiny {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
 }
 
-.back-button svg {
-    padding-inline-end: 0.5rem;
+.shiny:after {
+  content: "";
+  position: absolute;
+  top: -20%;
+  left: 120%;
+  width: 50%;
+  height: 200%;
+  background: #fff;
+  opacity: 0.4;
+
+  -webkit-transition: none;
+  -moz-transition: none;
+  -ms-transition: none;
+  -o-transition: none;
+  transition: none;
+
+  -ms-transform: skewX(-23deg);
+  -webkit-transform: skewX(-23deg);
+  transform: skewX(-23deg);
+
+  will-change: transform;
 }
 
-@media screen and(max-width: 1275px) {
-    #root,
-    body,
-    html {
-        font-size: 14px;
-    }
+.shiny:hover:after {
+  left: -200%;
+  opacity: 0.3;
+  background-color: rgba(255, 255, 255, 0);
+  -webkit-transition: all 1s ease-out;
+  -moz-transition: all 1s ease-out;
+  -ms-transition: all 1s ease-out;
+  -o-transition: all 1s ease-out;
+  transition: all 1s ease-out;
 }
 
-@media screen and(max-width: 1000px) {
-    #root,
-    body,
-    html {
-        font-size: 12px;
-    }
+/* Underline Animation */
+
+h1 span {
+  padding: 0 5px;
+  animation: mark 2.5s;
+  animation-fill-mode: forwards;
+  background-size: 200%;
+  background-image: linear-gradient(to right, #ffffff 50%, transparent 50%),
+    linear-gradient(transparent 50%, rgba(194, 194, 194, 0.694) 50%);
+  background-color: transparent;
 }
 
-@media screen and(max-width: 650px) {
-    #root,
-    body,
-    html {
-        font-size: 10px;
-    }
+@keyframes mark {
+  from {
+    background-position: 0;
+  }
+
+  to {
+    background-position: -100%;
+  }
 }
 
-/* width */
-::-webkit-scrollbar {
-    width: 7px;
-}
+@media only screen and (max-width: 767px) {
+  .cards {
+    flex-direction: column;
+  }
+  .categoryCard {
+    width: 340px;
+    height: 370px;
+  }
 
-/* Track */
-::-webkit-scrollbar-track {
-    background: #b2b2b2;
-}
+  .leftDiv {
+    display: none;
+  }
 
-/* Handle */
-::-webkit-scrollbar-thumb {
-    background: rgba(85, 85, 85, 0.612);
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-    background: rgba(85, 85, 85, 0.612);
+  .horizontalLine {
+    width: 15rem;
+    color: rgb(155, 155, 155);
+  }
 }

@@ -1,0 +1,39 @@
+.sizeTable {
+    overflow-x: auto;
+  }
+  
+  .search {
+    width: 100%;
+    filter: drop-shadow(1px 1px 6px rgba(0, 0, 0, 0.135));
+  }
+  
+  .dropdown-item,
+  .form-select {
+    color: black !important ;
+    background-color: white !important ;
+  }
+  
+  .dropdown-item:hover {
+    background-color: rgb(194, 194, 194) !important ;
+  }
+  
+  a,
+  .fa-xmark {
+    cursor: pointer;
+  }
+  
+  .hiddenMsg {
+    display: none;
+  }
+  
+  .shownMsg {
+    display: block;
+  }
+  
+  .spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+  }

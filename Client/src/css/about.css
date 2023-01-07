@@ -1,0 +1,30 @@
+.myImg {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding: 1rem;
+  }
+  
+  .images {
+    display: flex;
+    justify-items: center;
+  }
+  .aboutImg {
+    width: 29rem;
+    animation: fadeInRight 0.5s ease-in-out;
+  }
+  
+  .profile {
+    border-radius: 0.5rem;
+    width: 12.5rem;
+  }
+  
+  .txtGrey {
+    color: rgb(169, 169, 169);
+  }
+  
+  @media only screen and (max-width: 767px) {
+    .aboutMe {
+      text-align: center;
+    }
+  }
