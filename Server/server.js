@@ -1,41 +1,44 @@
 const express = require('express');
-const bodyParser = require('body-parser');
-const productDB = require('./controllers/product');
-const orderDB = require('./controllers/order');
-const product = require('./routes/product');
-const order = require('./routes/order');
-const connectDB = require('./db/connect');
-const cors = require('./middleware/cors');
+const mongoose = require('mongoose');
+require('dotenv').config();
 
-const URI =
-    'mongodb+srv://edClust123:SkA9xy2r6ldGHSB4@edencluster.qiwgfwf.mongodb.net/AdvApp?retryWrites=true&w=majority';
-
-//Set the express
 const app = express();
-const http = require('http');
-const server = http.createServer(app);
+const PORT = process.env.PORT || 3000;
 
-//Set the port
-const port = 3000;
+// ** Imports
+const logger = require('./middleware/logger');
+// const register = require('./routes/register'); -- next
+// const login = require('./routes/login'); -- next
+// const profile = require('./routes/profile'); -- next
+// const users = require('./routes/users'); -- next
+const product = require('./routes/product');
+const cart = require('./routes/cart');
+const category = require('./routes/category');
+const cors = require('cors');
 
-app.use(cors);
+const dbUrl = process.env.db || 'mongodb://localhost:27017/AdvApp';
 
-app.use(bodyParser.json());
-app.use(
-    bodyParser.urlencoded({
-        extended: true,
-    }),
-);
+app.use(express.json());
+app.use(cors());
 
-app.use('/products', product);
-app.use('/orders', order);
+// Logger
+app.use(logger);
 
-const onStartup = async () => {
-    connectDB(URI);
+// DB Connection
+mongoose
+    .connect(dbUrl, { useNewUrlParser: true })
+    .then(() => console.log('Connected to MongoDB'))
+    .catch(() => console.log('Cannot connect to server'));
 
-    server.listen(port, () =>
-        console.log(`Server is listening on port ${port}...`),
-    );
-};
+// End Points
+// app.use('/api/register', register); -- next
+// app.use('/api/login', login); -- next
+// app.use('/api/profile', profile); -- next
+// app.use('/api/all-users', users); -- next
 
-onStartup();
+app.use('/api/product', product);
+app.use('/api/carts', cart);
+app.use('/api/carts/delete-product', cart);
+app.use('/api/category', category);
+
+app.listen(PORT, () => console.log('API server started on port - ', PORT));
