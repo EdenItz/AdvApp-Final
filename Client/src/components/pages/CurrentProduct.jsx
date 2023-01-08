@@ -28,7 +28,7 @@ function CurrentProduct(props) {
                     setCartChange(!cartChange);
                 })
                 .catch(err =>
-                    errorMsg('Something went wrong, Please try agian!'),
+                    errorMsg('Something went wrong, Please try again!'),
                 );
         }
     };

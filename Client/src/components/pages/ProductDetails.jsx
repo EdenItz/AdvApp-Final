@@ -11,8 +11,8 @@ import RandomProducts from '../RandomProducts';
 
 function ProductDetails() {
     const { id } = useParams();
-    const api = import.meta.env.VITE_API_BASE_URL || '';
-    const [products] = useFetch(`${api}products/${id}`);
+    const api = 'http://localhost:3000/api/';
+    const [products] = useFetch(`${api}product/${id}`);
     const [isLoading, setIsLoading] = useState(false);
 
     // Update Cart icon When Adding New Product
