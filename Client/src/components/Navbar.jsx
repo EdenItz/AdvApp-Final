@@ -6,12 +6,15 @@ import { getProductsInCart } from '../services/cartService';
 import { successMsg, errorMsg } from '../services/feedbackService';
 
 // Importing useContext Variables
-import { TokenContext, UserContext } from '../App';
+import { TokenContext, UserContext, UserCounterContext } from '../App';
+
+// Globals
 
 function Navbar(props) {
     // Adding Token into setToken Variable via UseContext
     const setToken = useContext(TokenContext);
     const userDetails = useContext(UserContext);
+    const userCounter = useContext(UserCounterContext);
     const [isChanged, setIsChanged] = useState(false);
     const [cart, setCart] = useState('');
     const navigate = useNavigate();
@@ -190,6 +193,12 @@ function Navbar(props) {
                                     </>
                                 ) : null}
                             </ul>
+                        </div>
+                        <div>
+                            <NavLink className="nav-link nav-user-counter">
+                                Number of connected users:{' '}
+                                {userCounter}
+                            </NavLink>
                         </div>
                     </div>
                 </div>

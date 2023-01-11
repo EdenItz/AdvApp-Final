@@ -9,6 +9,11 @@
   font-size: 1.1rem !important;
 }
 
+.nav-user-counter {
+  margin-left: 10px;
+  color: lightgreen !important;
+}
+
 .navLogo {
   width: 7rem;
 }
