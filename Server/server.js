@@ -1,3 +1,4 @@
+
 const express = require('express');
 const mongoose = require('mongoose');
 require('dotenv').config();
@@ -11,6 +12,7 @@ const logger = require('./middleware/logger');
 // const login = require('./routes/login'); -- next
 // const profile = require('./routes/profile'); -- next
 // const users = require('./routes/users'); -- next
+const auth = require('./routes/auth');
 const product = require('./routes/product');
 const cart = require('./routes/cart');
 const category = require('./routes/category');
@@ -45,6 +47,7 @@ mongoose
 // app.use('/api/profile', profile); -- next
 // app.use('/api/all-users', users); -- next
 
+app.use('/api/auth', auth);
 app.use('/api/product', product);
 app.use('/api/carts', cart);
 app.use('/api/carts/delete-product', cart);
