@@ -17,7 +17,6 @@ function Navbar(props) {
     const [cart, setCart] = useState('');
     const navigate = useNavigate();
     const isLogged = sessionStorage.getItem('token');
-
     // Getting CartChange props from Product Details Component and Listening to changes in useEffect Dependency
     const cartChange = props.cartChange;
 
@@ -117,7 +116,6 @@ function Navbar(props) {
                             )}
                         </ul>
                         <div className="nav-item dropdown text-light">
-                            {/* CART */}
                             <NavLink
                                 className="position-relative navLink"
                                 to="/cart"
@@ -184,7 +182,7 @@ function Navbar(props) {
                                                 onClick={handleLogout}
                                                 className="dropdown-item"
                                             >
-                                                <i className="fa-solid fa-power-off"></i>{' '}
+                                                <i className="fa-solid fa-power-off"></i>
                                                 Logout
                                             </a>
                                         </li>
