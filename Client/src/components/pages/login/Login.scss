@@ -1,0 +1,26 @@
+.login {
+    display: grid;
+    grid-auto-flow: row;
+    grid-gap: 1rem;
+    width: 30%;
+    align-self: center;
+    margin: 10rem 0rem;
+
+    .MuiButton-root.login-button {
+        font-weight: 800;
+        font-size: 1.25rem;
+    }
+
+    .title {
+        text-align: center;
+        margin-bottom: 4rem;
+    }
+
+    .forgot-password {
+        cursor: pointer;
+    }
+
+    .forgot-password:hover {
+        color: var(--bs-blue)
+    }
+}
