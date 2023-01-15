@@ -1,9 +1,10 @@
 import React, { useContext, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import '../css/navbar.css';
-import '../css/home.css';
 import { getProductsInCart } from '../services/cartService';
 import { successMsg, errorMsg } from '../services/feedbackService';
+import appLogo from '../assets/logo.png';
+import '../css/navbar.css';
+import '../css/home.css';
 
 // Importing useContext Variables
 import { TokenContext, UserContext, UserCounterContext } from '../App';
@@ -19,7 +20,6 @@ function Navbar(props) {
     const [cart, setCart] = useState('');
     const navigate = useNavigate();
     const isLogged = sessionStorage.getItem('token');
-
     // Getting CartChange props from Product Details Component and Listening to changes in useEffect Dependency
     const cartChange = props.cartChange;
 
@@ -56,8 +56,8 @@ function Navbar(props) {
                 id="navBar"
             >
                 <div className="container">
-                    <NavLink className="navbar-brand " to="/">
-                        E-Shops
+                    <NavLink to="/">
+                        <img className="navLogo" src={appLogo} alt="Logo" ></img>
                     </NavLink>
                     <button
                         className="navbar-toggler"
@@ -106,20 +106,19 @@ function Navbar(props) {
                                 </NavLink>
                             </li>
 
-                            {userDetails.isAdmin ? (
+                            {userDetails.isAdmin && (
                                 <li className="nav-item">
                                     <NavLink
                                         className="nav-link text-success adminPanelLink"
                                         to="/admin-panel"
                                     >
-                                        <i className="fa-solid fa-unlock"></i>{' '}
+                                        <i className="fa-solid fa-unlock"></i>
                                         Admin Panel
                                     </NavLink>
                                 </li>
-                            ) : null}
+                            )}
                         </ul>
                         <div className="nav-item dropdown text-light">
-                            {/* CART */}
                             <NavLink
                                 className="position-relative navLink"
                                 to="/cart"
@@ -144,13 +143,13 @@ function Navbar(props) {
                                 data-bs-toggle="dropdown"
                                 aria-expanded="false"
                             >
-                                <i className="fa-solid fa-user fa-lg hoverIcon"></i>{' '}
+                                <i className="fa-solid fa-user fa-lg hoverIcon"></i>
                                 <span className="navName">
-                                    {isLogged ? userDetails.name : null}
+                                    {isLogged && userDetails.name}
                                 </span>
                             </a>
                             <ul className="dropdown-menu">
-                                {isLogged ? null : (
+                                {!isLogged && (
                                     <>
                                         <li>
                                             <NavLink
@@ -171,7 +170,7 @@ function Navbar(props) {
                                     </>
                                 )}
 
-                                {isLogged ? (
+                                {isLogged && (
                                     <>
                                         <li>
                                             <NavLink
@@ -186,12 +185,12 @@ function Navbar(props) {
                                                 onClick={handleLogout}
                                                 className="dropdown-item"
                                             >
-                                                <i className="fa-solid fa-power-off"></i>{' '}
+                                                <i className="fa-solid fa-power-off"></i>
                                                 Logout
                                             </a>
                                         </li>
                                     </>
-                                ) : null}
+                                )}
                             </ul>
                         </div>
                         <div>

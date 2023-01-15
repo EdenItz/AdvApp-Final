@@ -16,8 +16,7 @@ import Cart from '../src/components/pages/Cart';
 import About from '../src/components/pages/About';
 import Profile from '../src/components/pages/Profile';
 import HomePage from '../src/components/pages/HomePage';
-import Register from '../src/components/pages/Register';
-import Login from '../src/components/pages/Login';
+import Login from './components/pages/login/Login';
 import AdminPanel from '../src/components/pages/AdminPanel';
 import Pnf from '../src/components/pages/Pnf';
 import AdminProtectedRoutes from './components/AdminProtectedRoutes';
@@ -75,7 +74,7 @@ function App() {
                                 <Route path="/" element={<HomePage />} />
 
                                 {/* REGISTER */}
-                                <Route path="/register" element={<Register />} />
+                                <Route path="/register" element={<Login register={true} />} />
 
                                 {/* LOGIN */}
                                 <Route
@@ -137,6 +136,7 @@ function App() {
                                     <Route path="/admin-panel">
                                         <Route index element={<AdminPanel />} />
                                     </Route>
+
                                 </Route>
 
                                 <Route path="*" element={<Pnf />} />
