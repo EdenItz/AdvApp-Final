@@ -65,7 +65,10 @@ function App() {
                             <Route path="/" element={<HomePage />} />
 
                             {/* REGISTER */}
-                            <Route path="/register" element={<Login register={true} />} />
+                            <Route
+                                path="/register"
+                                element={<Login register={true} />}
+                            />
 
                             {/* LOGIN */}
                             <Route
@@ -89,6 +92,12 @@ function App() {
                             <Route
                                 path="/kids"
                                 element={<Products category={'Kids'} />}
+                            />
+
+                            {/* shoes&bags */}
+                            <Route
+                                path="/shoes&bags"
+                                element={<Products category={'Shoes&Bags'} />}
                             />
 
                             {/* ACCESSORIES */}

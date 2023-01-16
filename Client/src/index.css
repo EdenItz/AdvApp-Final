@@ -63,12 +63,6 @@ body {
 
 h1 span {
   padding: 0 5px;
-  animation: mark 2.5s;
-  animation-fill-mode: forwards;
-  background-size: 200%;
-  background-image: linear-gradient(to right, #ffffff 50%, transparent 50%),
-    linear-gradient(transparent 50%, rgba(194, 194, 194, 0.694) 50%);
-  background-color: transparent;
 }
 
 @keyframes mark {

@@ -69,7 +69,7 @@ function CurrentProduct(props) {
                         <strong className="rate">{products.rate}</strong>
                     </span>
                     <h2 className="productDetailsTxt fw-bold mt-1">
-                        Price: {products.price} ₪
+                        Price: ${products.price}
                         {products.inStock ? (
                             <span className="inStock"> In Stock!</span>
                         ) : (
@@ -108,18 +108,31 @@ function CurrentProduct(props) {
                             style={{ color: '#00A36C' }}
                         ></i>
                         <span className="fw-bold "> Free Shipping</span>
-                        <p>Free flat rate shipping on orders over ₪160.00</p>
+                        <p>Free Shipping over $50</p>
                         <i
                             className="fa-solid fa-shield fa-lg"
                             style={{ color: '#00A36C' }}
                         ></i>{' '}
                         <span className="fw-bold">Return Policy</span>
-                        <p>
-                            1. Items must be received within 60 days from the
-                            purchase date.
+                        <p className="fs-6">
+                            If you return an item requesting a refund within 28
+                            days of the item being delivered to you or available
+                            for collection, we'll give you a full refund by way
+                            of the original payment method. If you return an
+                            item requesting a refund within 29 and 45 days of
+                            the item being delivered to you or available for
+                            collection, we'll give you an E-Shops gift voucher
+                            for the amount equivalent to the price you paid for
+                            them - click here to find out more info about items
+                            returned within 29 and 45 days.
                             <br />
-                            2. Items must be received unused, undamaged and in
-                            original package.
+                            For all returns, we aim to refund you within 14 days
+                            of receiving the returned item.
+                            <br />
+                            If you request a refund for an item during the above
+                            time frames but you can't return it to us for some
+                            reason, please get in touch - but any refund will be
+                            at our discretion.
                         </p>
                     </div>
                     {products.inStock == false ? (
@@ -145,14 +158,6 @@ function CurrentProduct(props) {
                             Login To Continue Shopping
                         </Link>
                     )}
-                    <hr />
-                    <div className="payments text-center ">
-                        <img
-                            className="payment img-fluid"
-                            src="../payment.png"
-                            alt="Payment"
-                        />
-                    </div>
                 </div>
             </div>
         </>

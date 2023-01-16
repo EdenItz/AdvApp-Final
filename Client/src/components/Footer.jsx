@@ -13,17 +13,25 @@ function Footer() {
                             <div className="col-xl-4 col-lg-4 mb-50">
                                 <div className="footer-widget">
                                     <div className="footer-logo">
-                                        <p className="text-light">E-Shops</p>
+                                        <p className="text-light">About Us</p>
                                     </div>
                                     <div className="footer-text">
-                                        <p>about out store !!</p>
+                                        <p>
+                                            E-Shops is an e-commerce specialized
+                                            in new brands. The E-Shops team
+                                            knows that when you are buying new
+                                            brands, you are looking for nothing
+                                            less then perfection. Made by three
+                                            B.Sc. students: Tal, Eden and
+                                            Andrey.
+                                        </p>
                                     </div>
                                 </div>
                             </div>
                             <div className="col-xl-4 col-lg-4 col-md-6 mb-30">
                                 <div className="footer-widget">
                                     <div className="footer-widget-heading">
-                                        <h3>Useful Links</h3>
+                                        <h3>Site Links</h3>
                                         <div className="row">
                                             <div className="col-6">
                                                 <div>
@@ -53,17 +61,17 @@ function Footer() {
                                                 <div>
                                                     <Link
                                                         className="link"
-                                                        to="/accecories"
+                                                        to="/shoes&bags"
                                                     >
-                                                        Accecories
+                                                        Shoes & Bags
                                                     </Link>
                                                 </div>
                                                 <div>
                                                     <Link
                                                         className="link"
-                                                        to="/plus-size"
+                                                        to="/accessories"
                                                     >
-                                                        Plus Size
+                                                        Accessories
                                                     </Link>
                                                 </div>
                                             </div>
@@ -147,7 +155,7 @@ function Footer() {
                             <div className="col-xl-6 col-lg-6 text-center text-lg-left">
                                 <div className="copyright-text">
                                     <p>
-                                        Welcome to E-Shops make with Love By
+                                        Welcome to E-Shops made with Love By
                                         Tal, Eden and Andrey ,Copyright {year}
                                     </p>
                                 </div>

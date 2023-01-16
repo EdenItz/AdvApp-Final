@@ -32,7 +32,7 @@ function Category() {
                                     </h3>
                                     <Link
                                         to={card.link}
-                                        className="buy browseCat shiny"
+                                        className="buy browseCat"
                                     >
                                         Browse
                                     </Link>
