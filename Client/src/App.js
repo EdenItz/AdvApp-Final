@@ -2,6 +2,8 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
+import useWebSocket from 'react-use-websocket';
+
 
 // ** Components Imports
 
@@ -31,10 +33,16 @@ import './App.css';
 // Creating and Exporting useContext to Token (Session Storage) & UserDetails
 export const TokenContext = React.createContext();
 export const UserContext = React.createContext();
+export const UserCounterContext = React.createContext();
+
+import Globals from './globals';
+
 
 function App() {
     const [userDetails, setUserDetails] = useState('');
     const [token, setToken] = useState(sessionStorage.getItem('token'));
+    const { lastMessage } = useWebSocket(Globals.websocketHost);
+
 
     React.useEffect(() => {
         const isLogged = sessionStorage.getItem('token');
@@ -58,89 +66,91 @@ function App() {
             {/* Wrapping / Passing Token & UserDetails to all components with UseContext */}
             <UserContext.Provider value={userDetails}>
                 <TokenContext.Provider value={setToken}>
-                    <Router>
-                        <ScrollToTop />
-                        <Routes>
-                            {/* HOME PAGE */}
-                            <Route path="/" element={<HomePage />} />
+                    <UserCounterContext.Provider value={(lastMessage && lastMessage.data) || 0}>
+                        <Router>
+                            <ScrollToTop />
+                            <Routes>
+                                {/* HOME PAGE */}
+                                <Route path="/" element={<HomePage />} />
 
-                            {/* REGISTER */}
-                            <Route
+                                {/* REGISTER */}
+                                <Route
                                 path="/register"
                                 element={<Login register={true} />}
                             />
 
-                            {/* LOGIN */}
-                            <Route
-                                path="/login"
-                                element={<Login setToken={setToken} />}
-                            />
-
-                            {/* WOMENS */}
-                            <Route
-                                path="/women"
-                                element={<Products category={'Women'} />}
-                            />
-
-                            {/* MENS */}
-                            <Route
-                                path="/men"
-                                element={<Products category={'Men'} />}
-                            />
-
-                            {/* KIDS */}
-                            <Route
-                                path="/kids"
-                                element={<Products category={'Kids'} />}
-                            />
-
-                            {/* shoes&bags */}
+                                {/* LOGIN */}
+                                <Route
+                                    path="/login"
+                                    element={<Login setToken={setToken} />}
+                                />
+                                
+                                {/* shoes&bags */}
                             <Route
                                 path="/shoes&bags"
                                 element={<Products category={'Shoes&Bags'} />}
                             />
 
-                            {/* ACCESSORIES */}
-                            <Route
-                                path="/accessories"
-                                element={<Products category={'Accessories'} />}
-                            />
+                                {/* WOMENS */}
+                                <Route
+                                    path="/women"
+                                    element={<Products category={'Women'} />}
+                                />
 
-                            {/* ABOUT US */}
-                            <Route path="/about" element={<About />} />
+                                {/* MENS */}
+                                <Route
+                                    path="/men"
+                                    element={<Products category={'Men'} />}
+                                />
 
-                            {/* CART */}
-                            <Route path="/cart" element={<Cart />} />
+                                {/* KIDS */}
+                                <Route
+                                    path="/kids"
+                                    element={<Products category={'Kids'} />}
+                                />
 
-                            {/* USERS PROFILE (With Guard) */}
-                            <Route
-                                element={
-                                    <UserProtectedRoutes user={userDetails} />
-                                }
-                            >
-                                <Route path="/profile" element={<Profile />} />
-                            </Route>
+                                {/* ACCESSORIES */}
+                                <Route
+                                    path="/accessories"
+                                    element={<Products category={'Accessories'} />}
+                                />
 
-                            {/* PRODUCT DETAILS */}
-                            <Route
-                                path="product/:id"
-                                element={<ProductDetails />}
-                            />
+                                {/* ABOUT US */}
+                                <Route path="/about" element={<About />} />
 
-                            {/* PROTECTED ROUTES (ADMIN ONLY) */}
-                            <Route
-                                element={
-                                    <AdminProtectedRoutes user={userDetails} />
-                                }
-                            >
-                                <Route path="/admin-panel">
-                                    <Route index element={<AdminPanel />} />
+                                {/* CART */}
+                                <Route path="/cart" element={<Cart />} />
+
+                                {/* USERS PROFILE (With Guard) */}
+                                <Route
+                                    element={
+                                        <UserProtectedRoutes user={userDetails} />
+                                    }
+                                >
+                                    <Route path="/profile" element={<Profile />} />
                                 </Route>
-                            </Route>
 
-                            <Route path="*" element={<Pnf />} />
-                        </Routes>
-                    </Router>
+                                {/* PRODUCT DETAILS */}
+                                <Route
+                                    path="product/:id"
+                                    element={<ProductDetails />}
+                                />
+
+                                {/* PROTECTED ROUTES (ADMIN ONLY) */}
+                                <Route
+                                    element={
+                                        <AdminProtectedRoutes user={userDetails} />
+                                    }
+                                >
+                                    <Route path="/admin-panel">
+                                        <Route index element={<AdminPanel />} />
+                                    </Route>
+                                </Route>
+
+                                <Route path="*" element={<Pnf />} />
+                            </Routes>
+                        </Router>
+                    </UserCounterContext.Provider>
                 </TokenContext.Provider>
             </UserContext.Provider>
         </div>

@@ -3,6 +3,8 @@ const mongoose = require('mongoose');
 require('dotenv').config();
 
 const app = express();
+const expressWs = require('express-ws')(app);
+const aWss = expressWs.getWss('/');
 const PORT = process.env.PORT || 3000;
 
 // ** Imports
@@ -15,7 +17,10 @@ const auth = require('./routes/auth');
 const product = require('./routes/product');
 const cart = require('./routes/cart');
 const category = require('./routes/category');
+const webSocketHandler = require('./helpers/webSocketHandler')(aWss);
 const cors = require('cors');
+
+
 
 const dbUrl = process.env.db || 'mongodb://localhost:27017/AdvApp';
 
@@ -28,11 +33,8 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
 // Logger
 app.use(logger);
-
-console.log(dbUrl);
 
 // DB Connection
 mongoose
@@ -51,5 +53,7 @@ app.use('/api/product', product);
 app.use('/api/carts', cart);
 app.use('/api/carts/delete-product', cart);
 app.use('/api/category', category);
+
+app.ws('/',  (ws, req) => webSocketHandler.websocketUserCounter(ws, req));
 
 app.listen(PORT, () => console.log('API server started on port - ', PORT));
