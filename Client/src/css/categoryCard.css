@@ -16,24 +16,12 @@
   overflow: hidden;
 }
 
-.categoryCard::before {
-  content: "";
-  position: absolute;
-  top: -50%;
-  width: 100%;
-  height: 100%;
-  background: #a9a9a9;
-  transform: skewY(345deg);
-  transition: 0.5s;
-}
 
 .categoryCard:hover::before {
   top: -60%;
-  transform: skewY(390deg);
 }
 
 .categoryCard::after {
-  content: "Shine";
   position: absolute;
   bottom: 0;
   left: 0;

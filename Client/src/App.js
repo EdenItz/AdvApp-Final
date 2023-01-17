@@ -74,13 +74,22 @@ function App() {
                                 <Route path="/" element={<HomePage />} />
 
                                 {/* REGISTER */}
-                                <Route path="/register" element={<Login register={true} />} />
+                                <Route
+                                path="/register"
+                                element={<Login register={true} />}
+                            />
 
                                 {/* LOGIN */}
                                 <Route
                                     path="/login"
                                     element={<Login setToken={setToken} />}
                                 />
+                                
+                                {/* shoes&bags */}
+                            <Route
+                                path="/shoes&bags"
+                                element={<Products category={'Shoes&Bags'} />}
+                            />
 
                                 {/* WOMENS */}
                                 <Route
@@ -136,7 +145,6 @@ function App() {
                                     <Route path="/admin-panel">
                                         <Route index element={<AdminPanel />} />
                                     </Route>
-
                                 </Route>
 
                                 <Route path="*" element={<Pnf />} />

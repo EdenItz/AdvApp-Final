@@ -46,19 +46,13 @@ function HomePage() {
                     <h1 className="boldTitle text-center pt-3">
                         <span className="tapered2">Featured Categories</span>
                     </h1>
-                    <h5 className="text-center mb-3">
-                        Newest trends from top brands.
-                    </h5>
                     <Category />
                     <hr className="horizontalLine mt-5 mb-4 mx-auto" />
 
                     <h1 className="boldTitle text-center">
                         <span className="tapered2">Women Clothing</span>
                     </h1>
-                    <h5 className="text-center mb-3">
-                        <i className="fa-solid fa-venus women"></i> New Arrivals
-                        For Women.
-                    </h5>
+
                     {/* Women Clothing Cards */}
                     <div className="products">
                         {womenCloth
@@ -87,41 +81,14 @@ function HomePage() {
                             className="btn shiny btn-dark mt-4"
                             to="/Women"
                         >
-                            See More <i className="fa-solid fa-arrow-right"></i>
+                            Show More{' '}
+                            <i className="fa-solid fa-arrow-right"></i>
                         </Link>
-                    </div>
-                    <hr className="horizontalLine mt-4 mb-4 mx-auto" />
-                    {/* Banners */}
-                    <div className="banners text-center mb-4">
-                        <div className="row">
-                            <div className="banner col-lg-6 shiny">
-                                <Link to="/kids">
-                                    <img
-                                        className="banner img-fluid"
-                                        src="banner1.jpg"
-                                        alt="Banner"
-                                    />
-                                </Link>
-                            </div>
-                            <div className="banner col-lg-6 shiny">
-                                <Link to="/men">
-                                    <img
-                                        className="banner img-fluid"
-                                        src="banner2.jpg"
-                                        alt="Banner"
-                                    />
-                                </Link>
-                            </div>
-                        </div>
                     </div>
                     <hr className="horizontalLine mb-4 mx-auto hr" />
                     <h1 className="boldTitle text-center">
                         <span className="tapered2">Men Clothing</span>
                     </h1>
-                    <h5 className="text-center mb-3">
-                        <i className="fa-solid fa-mars men"></i> New Arrivals
-                        For Men.
-                    </h5>
                     {/* Men Clothing Cards */}
                     <div className="products">
                         {menCloth
@@ -149,7 +116,8 @@ function HomePage() {
                             className="btn shiny btn-dark mt-4"
                             to="/Men"
                         >
-                            See More <i className="fa-solid fa-arrow-right"></i>
+                            Show More{' '}
+                            <i className="fa-solid fa-arrow-right"></i>
                         </Link>
                     </div>
 
@@ -185,7 +153,8 @@ function HomePage() {
                             className="btn shiny btn-dark mt-4"
                             to="/Kids"
                         >
-                            See More <i className="fa-solid fa-arrow-right"></i>
+                            Show More{' '}
+                            <i className="fa-solid fa-arrow-right"></i>
                         </Link>
                     </div>
                 </div>
