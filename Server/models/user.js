@@ -12,18 +12,6 @@ const userSchema = new mongoose.Schema({
         minlength: 6,
         unique: true,
     },
-    password: {
-        type: String,
-        required: true,
-        minlength: 8,
-    },
-    isAdmin: {
-        type: Boolean,
-        required: true,
-    },
-    createdOn: {
-        type: String,
-    },
 });
 
 const User = mongoose.model('users', userSchema);

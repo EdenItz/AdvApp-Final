@@ -20,8 +20,6 @@ const category = require('./routes/category');
 const webSocketHandler = require('./helpers/webSocketHandler')(aWss);
 const cors = require('cors');
 
-
-
 const dbUrl = process.env.db || 'mongodb://localhost:27017/AdvApp';
 
 app.use(express.json());
@@ -54,6 +52,6 @@ app.use('/api/carts', cart);
 app.use('/api/carts/delete-product', cart);
 app.use('/api/category', category);
 
-app.ws('/',  (ws, req) => webSocketHandler.websocketUserCounter(ws, req));
+app.ws('/', (ws, req) => webSocketHandler.websocketUserCounter(ws, req));
 
 app.listen(PORT, () => console.log('API server started on port - ', PORT));

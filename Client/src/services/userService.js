@@ -3,10 +3,14 @@ import jwt_decode from 'jwt-decode';
 import { api } from '../globals';
 
 // REGISTER
-export const register = async (email, password) => {
+export const register = async (email, password, name) => {
     try {
-        const data = await axios.post(`${api}/auth/register`, { email: email, password: password });
-        console.log(data)
+        const data = await axios.post(`${api}/auth/register`, {
+            email: email,
+            password: password,
+            name: name,
+        });
+        console.log(data);
         return data;
     } catch (error) {
         return error?.response?.data;
@@ -16,8 +20,11 @@ export const register = async (email, password) => {
 // LOGIN
 export const logIn = async (email, password) => {
     try {
-        const data = await axios.post(`${api}/auth/logIn`, { email: email, password: password });
-        console.log(data)
+        const data = await axios.post(`${api}/auth/logIn`, {
+            email: email,
+            password: password,
+        });
+        console.log(data);
         return data;
     } catch (error) {
         return error?.response?.data;
@@ -25,10 +32,12 @@ export const logIn = async (email, password) => {
 };
 
 // LOGIN
-export const resetPasswordWithEmail = async (email) => {
+export const resetPasswordWithEmail = async email => {
     try {
-        const data = await axios.post(`${api}/auth/resetPassword`, { email: email });
-        console.log(data)
+        const data = await axios.post(`${api}/auth/resetPassword`, {
+            email: email,
+        });
+        console.log(data);
         return data;
     } catch (error) {
         return error?.response?.data;

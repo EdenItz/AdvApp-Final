@@ -1,66 +1,97 @@
-const firebase = require('../firebase.js')
+const firebase = require('../firebase.js');
+const user = require('../models/User');
+const errorHandler = require('../globals').errorHandler;
 
 const register = async (req, res) => {
-    if (!req.body.email || !req.body.password) {
-        res.status(400)
+    if (!req.body.email || !req.body.password || !req.body.name) {
+        res.status(400);
         res.send({
-            email: "email is required",
-            password: "password is required"
-        })
+            email: 'email is required',
+            password: 'password is required',
+            name: 'name is required',
+        });
     }
-    const data = await firebase.auth().createUserWithEmailAndPassword(req.body.email, req.body.password)
-        .then((data) => {
-            res.status(200)
-            res.send(data)
-        }).catch((e) => {
-            res.status(500)
-            res.send({ error: e.message })
+    await firebase
+        .auth()
+        .createUserWithEmailAndPassword(req.body.email, req.body.password)
+        .then(data => {
+            // Add new user in db if created successfully
+            const newUser = new user({
+                email: data.user.email,
+                name: req.body.name,
+            });
+            newUser
+                .save()
+                .then(() => {
+                    res.send(newUser, data);
+                })
+                .catch(error => {
+                    let currUser = firebase.auth().currentUser;
+                    currUser.delete;
+                    errorHandler(res);
+                });
         })
+        .catch(e => {
+            res.status(500);
+            res.send({ fireBaseError: e.message });
+        });
 };
 
 const logIn = async (req, res) => {
     if (!req.body.email || !req.body.password) {
-        res.status(400)
+        res.status(400);
         res.send({
-            email: "email is required",
-            password: "password is required"
-        })
+            email: 'email is required',
+            password: 'password is required',
+        });
     }
-    const data = await firebase.auth().signInWithEmailAndPassword(req.body.email, req.body.password).then((data) => {
-        res.status(200)
-        res.send(data)
-    }).catch((e) => {
-        res.status(500)
-        res.send({ error: e.message })
-    })
-}
+    await firebase
+        .auth()
+        .signInWithEmailAndPassword(req.body.email, req.body.password)
+        .then(data => {
+            user.findOne({ email: req.body.email })
+                .then(user => {
+                    res.json(user, data);
+                })
+                .catch(errorHandler(res));
+        })
+        .catch(e => {
+            res.status(500);
+            res.send({ fireBaseError: e.message });
+        });
+};
 
 const verifyEmail = async (req, res) => {
     firebase
-        .auth().currentUser
-        .sendEmailVerification()
+        .auth()
+        .currentUser.sendEmailVerification()
         .than(function () {
-            return res.status(200).json({ status: 'Email verification sent' })
-        }).catch((error) => res.status(500).json({ error: error.message }))
+            return res.status(200).json({ status: 'Email verification sent' });
+        })
+        .catch(error => res.status(500).json({ error: error.message }));
 };
 
 const resetPassword = async (req, res) => {
     if (!req.body.email) {
         res.send({
-            email: "email is required",
-        })
+            email: 'email is required',
+        });
     }
-    await firebase.auth().sendPasswordResetEmail(req.body.email).then((data) => {
-        res.status(200)
-        res.send("Password reset email was sent")
-    }).catch((e) => {
-        res.status(500)
-        res.send({ error: e.message })
-    })
-}
+    await firebase
+        .auth()
+        .sendPasswordResetEmail(req.body.email)
+        .then(data => {
+            res.status(200);
+            res.send('Password reset email was sent');
+        })
+        .catch(e => {
+            res.status(500);
+            res.send({ error: e.message });
+        });
+};
 
 module.exports = {
     register,
     logIn,
-    resetPassword
+    resetPassword,
 };

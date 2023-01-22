@@ -5,15 +5,16 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import { Login as LoginIcon } from '@mui/icons-material';
 import Swal from 'sweetalert2';
 
-import Navbar from '../../Navbar';
-import Footer from '../../Footer';
-import { logIn as logInApi, resetPasswordWithEmail, register as registerApi } from '../../../services/userService';
-import './Login.scss';
+import Navbar from '../Navbar';
+import Footer from '../Footer';
+import { logIn as logInApi, resetPasswordWithEmail, register as registerApi } from '../../services/userService';
+import '../../css/login.scss';
 
 function Register({ register = false }) {
     const [loading, setLoading] = useState(false);
     const [passResetLoading, setPassResetLoading] = useState(false);
     const [email, setEmail] = useState('');
+    const [name, setName] = useState('');
     const [password, setPassword] = useState('');
     const [passwordVerify, setPasswordVerify] = useState('');
 
@@ -47,20 +48,17 @@ function Register({ register = false }) {
             return setLoading(false);
         }
 
-        const res = register ? await registerApi(email, password) : await logInApi(email, password);
-        console.log(res)
+        const res = register ? await registerApi(email, password, name) : await logInApi(email, password);
+        
         if (!res) {
             return setLoading(false);
         }
-        if (res.error) {
-            Swal.fire(`Oops...`, `${res.error}`, 'error')
-        }
-        else if (res.status == 200) {
+        if (res.fireBaseError) {
+            Swal.fire(`Oops...`, `${res.fireBaseError}`, 'error')
+        } else {
             setLoading(false);
             navigate("/");
         }
-
-        setLoading(false);
     };
 
     return (
@@ -69,9 +67,17 @@ function Register({ register = false }) {
             <form onSubmit={handleSubmit} className="login center">
                 <h1 className='title'>{register ? 'Welcome' : 'Good to see you again'}</h1>
                 <h2>{register ? 'sign up to E-shops' : 'log back into E-shops'}</h2>
+                {register && <TextField
+                    required
+                    type="text"
+                    label="Full name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                />}
                 <TextField
                     required
                     autoFocus
+                    type="email"
                     label="Email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}

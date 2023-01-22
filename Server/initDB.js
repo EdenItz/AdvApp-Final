@@ -371,4 +371,40 @@ Product.insertMany(testProducts)
         console.log(error);
     });
 
+const testOrders = [
+    {
+        userId: 'bZGelS0GzOdLoPpZ7tDwVxqAuHg1',
+        productIds: '[1,2,3,4]',
+    },
+    {
+        name: 'Men',
+        image: '/assets/images/categories/men-img.png',
+        link: '/men',
+    },
+    {
+        name: 'Kids',
+        image: '/assets/images/categories/kids-img.png',
+        link: '/kids',
+    },
+    {
+        name: 'Shoes&Bags',
+        image: '/assets/images/categories/shoes-bags-img.png',
+        link: '/shoes&bags',
+    },
+    {
+        name: 'Accessories',
+        image: '/assets/images/categories/accessories-img.png',
+        link: '/accessories',
+    },
+];
+
+// ** Insert Categories
+Categories.insertMany(testCategories)
+    .then(res => {
+        console.log(res);
+    })
+    .catch(error => {
+        console.log(error);
+    });
+
 console.log('Done !!!');
