@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useCookies } from "react-cookie";
+
 import { addToUserCart } from '../../services/cartService';
 import { errorMsg, successMsg } from '../../services/feedbackService';
 import { Link } from 'react-router-dom';
@@ -8,7 +10,7 @@ function CurrentProduct(props) {
     // Updates Cart Badge After Adding To Cart
     const cartChange = props.cartChange;
     const setCartChange = props.setCartChange;
-    const isLogged = sessionStorage.getItem('token');
+    const [cookies] = useCookies();
     const [size, setSize] = useState('');
 
     //  Add Product To Cart
@@ -22,7 +24,7 @@ function CurrentProduct(props) {
             };
             product.size = currentSize.size;
             product.productId = products._id;
-            addToUserCart(product)
+            addToUserCart(product, cookies.eShopToken)
                 .then(() => {
                     successMsg('Product added successfully!');
                     setCartChange(!cartChange);
@@ -142,7 +144,7 @@ function CurrentProduct(props) {
                         >
                             Out Of Stock :(
                         </button>
-                    ) : isLogged ? (
+                    ) : cookies.eShopToken ? (
                         <a
                             onClick={() => HandleAddToCart(products)}
                             className="btn shiny btn-success btn-lg w-100 "

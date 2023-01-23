@@ -4,6 +4,29 @@ const auth = require('../middleware/auth');
 const joi = require('joi');
 const Cart = require('../models/Cart');
 
+// var newCartTemplate = {
+//     userId: {
+//         type: mongoose.Types.ObjectId,
+//         // required: true,
+//     },
+//     products: [
+//         {
+//             productId: {
+//                 type: mongoose.Types.ObjectId,
+//                 ref: 'products',
+//             },
+//             name: String,
+//             price: Number,
+//             category: String,
+//             description: String,
+//             image: String,
+//             size: String,
+//             quantity: Number,
+//         },
+//     ],
+//     active: true
+// }
+
 // ** Product Schema
 const productSchema = joi.object({
     productId: joi.string(),
@@ -24,7 +47,16 @@ router.post('/', auth, async (req, res) => {
         if (error) return res.status(400).send(error.message);
 
         let cart = await Cart.findOne({ userId: req.payload._id });
-        if (!cart) return res.status(404).send('No Cart For This User.');
+        if (!cart) {
+            Cart.insertOne(testCategories)
+                .then(res => {
+                    console.log(res);
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        }
+        // return res.status(404).send('No Cart For This User.');
 
         // Add Product to user Cart
         cart.products.push(req.body);

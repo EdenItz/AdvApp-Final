@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import { useCookies } from "react-cookie";
 import '../../css/profile.css';
 import { successMsg } from '../../services/feedbackService';
 import Navbar from '../Navbar';
@@ -11,10 +12,11 @@ function Profile() {
     // Adding User Data into userDetails Variable via UseContext
     const userDetails = useContext(UserContext);
     const navigate = useNavigate();
+    const [cookies, setCookie, removeItem] = useCookies();
 
     // LOGOUT
     const handleLogout = () => {
-        sessionStorage.removeItem('token');
+        removeItem('eShopToken');
         successMsg('You Logged Out Successfully!');
         navigate('/');
     };

@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import useWebSocket from 'react-use-websocket';
+import { useCookies } from "react-cookie";
 
 
 // ** Components Imports
@@ -40,14 +41,12 @@ import Globals from './globals';
 
 function App() {
     const [userDetails, setUserDetails] = useState('');
-    const [token, setToken] = useState(sessionStorage.getItem('token'));
+    const [cookies] = useCookies();
     const { lastMessage } = useWebSocket(Globals.websocketHost);
 
 
     React.useEffect(() => {
-        const isLogged = sessionStorage.getItem('token');
-
-        if (isLogged) {
+        if (cookies.eShopToken) {
             getUser()
                 .then(result => {
                     setUserDetails(result.data);
@@ -58,14 +57,14 @@ function App() {
         } else {
             setUserDetails('');
         }
-    }, [token]);
+    }, [cookies.eShopToken]);
 
     return (
         <div className="App">
             <ToastContainer />
             {/* Wrapping / Passing Token & UserDetails to all components with UseContext */}
             <UserContext.Provider value={userDetails}>
-                <TokenContext.Provider value={setToken}>
+                <TokenContext.Provider value={() => {}}>
                     <UserCounterContext.Provider value={(lastMessage && lastMessage.data) || 0}>
                         <Router>
                             <ScrollToTop />
@@ -82,7 +81,7 @@ function App() {
                                 {/* LOGIN */}
                                 <Route
                                     path="/login"
-                                    element={<Login setToken={setToken} />}
+                                    element={<Login setToken={() => {}} />}
                                 />
                                 
                                 {/* shoes&bags */}

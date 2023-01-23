@@ -1,4 +1,8 @@
-const firebase = require('../firebase.js')
+const firebase = require('../firebase.js');
+const { signJwt } = require('../helpers/jwtHandlers');
+const jwt = require('jsonwebtoken');
+const User = require('../models/User');
+
 
 const register = async (req, res) => {
     if (!req.body.email || !req.body.password) {
@@ -26,13 +30,16 @@ const logIn = async (req, res) => {
             password: "password is required"
         })
     }
-    const data = await firebase.auth().signInWithEmailAndPassword(req.body.email, req.body.password).then((data) => {
+    const data = await firebase.auth().signInWithEmailAndPassword(req.body.email, req.body.password).then(async (data) => {
+        const token = signJwt(req.body.email);
+        // User.insertMany({...req.body, createdOn: new Date().getTime().toString()});
+        res.cookie('eShopToken', token, { maxAge: 3600 * 1000 });
         res.status(200)
-        res.send(data)
+        res.send(data);
     }).catch((e) => {
-        res.status(500)
-        res.send({ error: e.message })
-    })
+            res.status(500)
+            res.send({ error: e.message })
+        })
 }
 
 const verifyEmail = async (req, res) => {
