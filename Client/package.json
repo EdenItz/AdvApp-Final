@@ -17,8 +17,8 @@
         "lodash": "^4.17.21",
         "mui": "0.0.1",
         "react": "^18.2.0",
-        "react-alert": "^7.0.3",
         "react-bootstrap": "^2.7.0",
+        "react-cookie": "^4.1.1",
         "react-dom": "^18.2.0",
         "react-router-dom": "^6.4.3",
         "react-scripts": "5.0.1",
@@ -46,5 +46,6 @@
             "last 1 firefox version",
             "last 1 safari version"
         ]
-    }
+    },
+    "proxy": "http://localhost:3000"
 }

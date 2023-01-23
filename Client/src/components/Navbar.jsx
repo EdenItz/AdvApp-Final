@@ -1,5 +1,9 @@
 import React, { useContext, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
+import { useCookies } from 'react-cookie';
+import Nav from 'react-bootstrap/Nav';
+import NavDropdown from 'react-bootstrap/NavDropdown';
+
 import { getProductsInCart } from '../services/cartService';
 import { successMsg, errorMsg } from '../services/feedbackService';
 import appLogo from '../assets/logo.png';
@@ -19,7 +23,7 @@ function Navbar(props) {
     const [isChanged, setIsChanged] = useState(false);
     const [cart, setCart] = useState('');
     const navigate = useNavigate();
-    const isLogged = sessionStorage.getItem('token');
+    const [cookies, setCookie, removeItem] = useCookies();
     // Getting CartChange props from Product Details Component and Listening to changes in useEffect Dependency
     const cartChange = props.cartChange;
 
@@ -29,16 +33,16 @@ function Navbar(props) {
     // LOGOUT
     const handleLogout = () => {
         setIsChanged(!isChanged);
-        sessionStorage.removeItem('token');
+        removeItem('eShopToken');
         setToken('');
         successMsg('You Logged Out Successfully!');
         navigate('/');
     };
 
     React.useEffect(() => {
-        if (isLogged) {
+        if (cookies.eShopToken) {
             // Get Products From Cart
-            getProductsInCart()
+            getProductsInCart(cookies.eShopToken)
                 .then(result => {
                     setCart(result.data);
                 })
@@ -57,7 +61,7 @@ function Navbar(props) {
             >
                 <div className="container">
                     <NavLink to="/">
-                        <img className="navLogo" src={appLogo} alt="Logo" ></img>
+                        <img className="navLogo" src={appLogo} alt="Logo"></img>
                     </NavLink>
                     <button
                         className="navbar-toggler"
@@ -117,7 +121,105 @@ function Navbar(props) {
                                     </NavLink>
                                 </li>
                             )}
+
+                            {/* <li className="nav-item dropdown text-light">
+                                <a
+                                className="nav-link dropdown-toggle"
+                                href="#"
+                                    role="button"
+                                    data-bs-toggle="dropdown"
+                                    aria-expanded="false"
+                                >
+                                    <i className="fa-solid fa-user fa-lg hoverIcon"></i>
+                                    <span className="navName">
+                                    {cookies.eShopToken && userDetails.name}
+                                </span>
+                                    dropdown
+                                </a>
+                                <ul className="dropdown-menu">
+                                    <li>
+                                        <a class="dropdown-item" href="#">
+                                            Action
+                                        </a>
+                                    </li>
+                                    {!cookies.eShopToken && (
+                                        <>
+                                            <li>
+                                                <NavLink
+                                                    className="dropdown-item"
+                                                    to="/login"
+                                                >
+                                                    Login
+                                                </NavLink>
+                                            </li>
+                                            <li>
+                                                <NavLink
+                                                    className="dropdown-item"
+                                                    to="/register"
+                                                >
+                                                    Register
+                                                </NavLink>
+                                            </li>
+                                        </>
+                                    )}
+
+                                    {cookies.eShopToken && (
+                                        <>
+                                            <li>
+                                                <NavLink
+                                                    className="dropdown-item"
+                                                    to="/profile"
+                                                >
+                                                    Profile
+                                                </NavLink>
+                                            </li>
+                                            <li>
+                                                <a
+                                                    onClick={handleLogout}
+                                                    className="dropdown-item"
+                                                >
+                                                    <i className="fa-solid fa-power-off"></i>
+                                                    Logout
+                                                </a>
+                                            </li>
+                                        </>
+                                    )}
+                                </ul>
+                            </li> */}
+                            <NavDropdown
+                                title={
+                                    <span className="navName">
+                                        {cookies.eShopToken && userDetails.name}
+                                    </span>
+                                }
+                                id="basic-nav-dropdown"
+                            >
+                                {!cookies.eShopToken && (
+                                    <>
+                                        <NavDropdown.Item href="/login">
+                                            Login
+                                        </NavDropdown.Item>
+                                        <NavDropdown.Item href="/register">
+                                            Register
+                                        </NavDropdown.Item>
+                                    </>
+                                )}
+
+                                {cookies.eShopToken && (
+                                    <>
+                                        <NavDropdown.Item href="/profile">
+                                            Profile
+                                        </NavDropdown.Item>
+                                        <NavDropdown.Item
+                                            onClick={handleLogout}
+                                        >
+                                            Logout
+                                        </NavDropdown.Item>
+                                    </>
+                                )}
+                            </NavDropdown>
                         </ul>
+
                         <div className="nav-item dropdown text-light">
                             <NavLink
                                 className="position-relative navLink"
@@ -135,68 +237,10 @@ function Navbar(props) {
                                 )}
                             </NavLink>
                         </div>
-                        <div className="nav-item dropdown text-light">
-                            <a
-                                className="nav-link dropdown-toggle"
-                                href="#"
-                                role="button"
-                                data-bs-toggle="dropdown"
-                                aria-expanded="false"
-                            >
-                                <i className="fa-solid fa-user fa-lg hoverIcon"></i>
-                                <span className="navName">
-                                    {isLogged && userDetails.name}
-                                </span>
-                            </a>
-                            <ul className="dropdown-menu">
-                                {!isLogged && (
-                                    <>
-                                        <li>
-                                            <NavLink
-                                                className="dropdown-item"
-                                                to="/login"
-                                            >
-                                                Login
-                                            </NavLink>
-                                        </li>
-                                        <li>
-                                            <NavLink
-                                                className="dropdown-item"
-                                                to="/register"
-                                            >
-                                                Register
-                                            </NavLink>
-                                        </li>
-                                    </>
-                                )}
 
-                                {isLogged && (
-                                    <>
-                                        <li>
-                                            <NavLink
-                                                className="dropdown-item"
-                                                to="/profile"
-                                            >
-                                                Profile
-                                            </NavLink>
-                                        </li>
-                                        <li>
-                                            <a
-                                                onClick={handleLogout}
-                                                className="dropdown-item"
-                                            >
-                                                <i className="fa-solid fa-power-off"></i>
-                                                Logout
-                                            </a>
-                                        </li>
-                                    </>
-                                )}
-                            </ul>
-                        </div>
                         <div>
                             <NavLink className="nav-link nav-user-counter">
-                                Number of connected users:{' '}
-                                {userCounter}
+                                Number of connected users: {userCounter}
                             </NavLink>
                         </div>
                     </div>
