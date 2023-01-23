@@ -10,7 +10,6 @@
     "express-ws": "^5.0.2",
     "firebase": "^7.24.0",
     "firebase-admin": "^11.4.1",
-
     "joi": "^17.7.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.1.9",

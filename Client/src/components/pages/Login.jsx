@@ -49,16 +49,17 @@ function Register({ register = false }) {
         }
 
         const res = register ? await registerApi(email, password, name) : await logInApi(email, password);
-        
+
         if (!res) {
             return setLoading(false);
         }
         if (res.fireBaseError) {
             Swal.fire(`Oops...`, `${res.fireBaseError}`, 'error')
-        } else {
+        } else if (res.status == 200) {
             setLoading(false);
             navigate("/");
         }
+        setLoading(false);
     };
 
     return (

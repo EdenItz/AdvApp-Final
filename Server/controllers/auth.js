@@ -22,12 +22,14 @@ const register = async (req, res) => {
             });
             newUser
                 .save()
-                .then(() => {
-                    res.send(newUser, data);
+                .then(result => {
+                    res.send(data);
                 })
-                .catch(error => {
-                    let currUser = firebase.auth().currentUser;
-                    currUser.delete;
+                .catch(async error => {
+                    currUser = firebase.auth().currentUser
+                    currUser.delete().then(() => {
+                        res.status(500).send({ error: error });
+                    }).catch(error => { errorHandler(res) })
                     errorHandler(res);
                 });
         })
@@ -51,7 +53,7 @@ const logIn = async (req, res) => {
         .then(data => {
             user.findOne({ email: req.body.email })
                 .then(user => {
-                    res.json(user, data);
+                    res.status(200).json({ ...data, ...user });
                 })
                 .catch(errorHandler(res));
         })
