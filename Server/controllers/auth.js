@@ -1,6 +1,9 @@
 const firebase = require('../firebase.js');
-const user = require('../models/User');
+const User = require('../models/User');
 const errorHandler = require('../globals').errorHandler;
+const { signJwt } = require('../helpers/jwtHandlers');
+const jwt = require('jsonwebtoken');
+
 
 const register = async (req, res) => {
     if (!req.body.email || !req.body.password || !req.body.name) {
@@ -16,7 +19,7 @@ const register = async (req, res) => {
         .createUserWithEmailAndPassword(req.body.email, req.body.password)
         .then(data => {
             // Add new user in db if created successfully
-            const newUser = new user({
+            const newUser = new User({
                 email: data.user.email,
                 name: req.body.name,
             });
@@ -51,8 +54,11 @@ const logIn = async (req, res) => {
         .auth()
         .signInWithEmailAndPassword(req.body.email, req.body.password)
         .then(data => {
-            user.findOne({ email: req.body.email })
+            const token = signJwt(req.body.email);
+            res.cookie('eShopToken', token, { maxAge: 3600 * 1000 });
+            User.findOne({ email: req.body.email })
                 .then(user => {
+
                     res.status(200).json({ ...data, ...user });
                 })
                 .catch(errorHandler(res));

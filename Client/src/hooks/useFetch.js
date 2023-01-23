@@ -4,7 +4,7 @@ export const useFetch = endpoint => {
     const [data, setData] = useState([]);
 
     useEffect(() => {
-        fetch(endpoint)
+        fetch(endpoint, {credentials: 'include'})
             .then(res => res.json())
             .then(data => setData(data));
     }, [endpoint]);

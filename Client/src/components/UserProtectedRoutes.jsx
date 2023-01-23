@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
+import { useCookies } from "react-cookie";
 
 export default function UserProtectedRoutes() {
-    const isLogged = sessionStorage.getItem('token');
-    const [isAuthenticated, setAuthenticated] = useState(isLogged);
-    return isAuthenticated ? (
+    const [cookies] = useCookies();
+    return cookies.eShopToken ? (
         <Outlet />
     ) : (
         (alert('You are not allowed to access this Url!'),

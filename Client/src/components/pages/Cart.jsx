@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useCookies } from "react-cookie";
 
 // ** Components Imports
 import Navbar from '../Navbar';
@@ -18,7 +19,7 @@ import { errorMsg, successMsg } from '../../services/feedbackService';
 
 function Cart() {
     const [products, setProducts] = useState([]);
-    const isLogged = sessionStorage.getItem('token');
+    const [cookies] = useCookies();
 
     // Updates Cart Badge After Deleting Product From Cart
     const [isChanged, setIsChanged] = useState(false);
@@ -32,7 +33,7 @@ function Cart() {
     // Delete Products in cart
     const handleDelete = () => {
         setTimeout(() => {
-            deleteProducts(cart)
+            deleteProducts(cart, cookies.eShopToken)
                 .then(() => {
                     successMsg('Payment Successfully!');
                     setIsChanged(!isChanged);
@@ -44,7 +45,7 @@ function Cart() {
     };
 
     const handleDeleteProductFromCart = product => {
-        deleteProductFromCart(product)
+        deleteProductFromCart(product, cookies.eShopToken)
             .then(() => {
                 successMsg(`Product deleted Successfully!`);
                 setIsChanged(!isChanged);
@@ -55,7 +56,7 @@ function Cart() {
     };
 
     React.useEffect(() => {
-        if (isLogged) {
+        if (cookies.eShopToken) {
             getProductsInCart()
                 .then(result => {
                     setCart(result.data);
@@ -231,7 +232,7 @@ function Cart() {
                             <h4 className="text-center mt-3">
                                 Your Bag is Empty...
                             </h4>
-                            {!isLogged ? (
+                            {!cookies.eShopToken ? (
                                 <h6 className="text-center">
                                     Please Login to view your cart and start
                                     shopping.
