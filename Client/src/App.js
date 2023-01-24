@@ -61,7 +61,7 @@ function App() {
             <ToastContainer />
             {/* Wrapping / Passing Token & UserDetails to all components with UseContext */}
             <UserContext.Provider value={userDetails}>
-                <TokenContext.Provider value={setToken}>
+                <TokenContext.Provider value={() => { }}>
                     <UserCounterContext.Provider
                         value={(lastMessage && lastMessage.data) || 0}
                     >
