@@ -6,11 +6,7 @@ const Order = new Schema({
         type: [Number],
         required: true,
     },
-    fullName: {
-        type: String,
-        required: true,
-    },
-    address: {
+    email: {
         type: String,
         required: true,
     },
