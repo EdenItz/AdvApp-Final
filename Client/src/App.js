@@ -5,7 +5,6 @@ import { ToastContainer } from 'react-toastify';
 import useWebSocket from 'react-use-websocket';
 import { useCookies } from "react-cookie";
 
-
 // ** Components Imports
 
 import Products from '../src/components/Products';
@@ -17,7 +16,7 @@ import Cart from '../src/components/pages/Cart';
 import About from '../src/components/pages/About';
 import Profile from '../src/components/pages/Profile';
 import HomePage from '../src/components/pages/HomePage';
-import Login from './components/pages/login/Login';
+import Login from './components/pages/Login';
 import AdminPanel from '../src/components/pages/AdminPanel';
 import Pnf from '../src/components/pages/Pnf';
 import AdminProtectedRoutes from './components/AdminProtectedRoutes';
@@ -39,12 +38,10 @@ export const UserCounterContext = React.createContext();
 
 import Globals from './globals';
 
-
 function App() {
     const [userDetails, setUserDetails] = useState('');
     const [cookies] = useCookies();
     const { lastMessage } = useWebSocket(Globals.websocketHost);
-
 
     React.useEffect(() => {
         if (cookies.eShopToken) {
@@ -112,7 +109,9 @@ function App() {
                                 {/* ACCESSORIES */}
                                 <Route
                                     path="/accessories"
-                                    element={<Products category={'Accessories'} />}
+                                    element={
+                                        <Products category={'Accessories'} />
+                                    }
                                 />
 
                                 {/* ABOUT US */}
@@ -124,10 +123,15 @@ function App() {
                                 {/* USERS PROFILE (With Guard) */}
                                 <Route
                                     element={
-                                        <UserProtectedRoutes user={userDetails} />
+                                        <UserProtectedRoutes
+                                            user={userDetails}
+                                        />
                                     }
                                 >
-                                    <Route path="/profile" element={<Profile />} />
+                                    <Route
+                                        path="/profile"
+                                        element={<Profile />}
+                                    />
                                 </Route>
 
                                 {/* PRODUCT DETAILS */}
@@ -145,7 +149,9 @@ function App() {
                                 {/* PROTECTED ROUTES (ADMIN ONLY) */}
                                 <Route
                                     element={
-                                        <AdminProtectedRoutes user={userDetails} />
+                                        <AdminProtectedRoutes
+                                            user={userDetails}
+                                        />
                                     }
                                 >
                                     <Route path="/admin-panel">
