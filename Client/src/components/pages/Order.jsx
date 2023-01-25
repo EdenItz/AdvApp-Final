@@ -1,0 +1,142 @@
+import React, { useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { useFetch } from '../../hooks/useFetch';
+import Navbar from '../Navbar';
+import ProductOrder from "../ProductOrder";
+import Footer from '../Footer';
+
+
+function Order() {
+    const { orderId } = useParams();
+    const api = 'http://localhost:3000/api/';
+    const [order] = useFetch(`${api}order/${orderId}`);
+    const [isLoading, setIsLoading] = useState(false);
+
+    React.useEffect(() => {
+        setTimeout(() => {
+            setIsLoading(true);
+        }, 500);
+    }, []);
+
+    return (
+        <>
+            <Navbar />
+            {isLoading ? (
+            <div className="h-100 gradient-custom">
+                <div className="container py-5 h-100">
+                    <div className="row d-flex justify-content-center align-items-center h-100">
+                        <div className="col-lg-10 col-xl-10">
+                            <div
+                                className="card"
+                                style={{ 'border-radius': '10px' }}
+                            >
+                                <div className="card-header px-4 py-5">
+                                    <h5 className="text-muted mb-0">
+                                        Thanks for your Order,{' '}
+                                        <span style={{ color: '#a8729a' }}>
+                                            {order.fullName}
+                                        </span>
+                                        !
+                                    </h5>
+                                </div>
+                                <div className="card-body p-4">
+                                    <div className="d-flex justify-content-between align-items-center mb-4">
+                                        <p
+                                            className="lead fw-normal mb-0"
+                                            style={{ color: '#a8729a' }}
+                                        >
+                                            Receipt
+                                        </p>
+                                        {/* <p className="small text-muted mb-0">
+                                            Receipt Voucher : 1KAU9-84UIL
+                                        </p> */}
+                                    </div>
+                                    
+                                    {order.products.map(product => {
+                                        const { image, name, description, rate, catagory, price } = product;
+                                        const props = { image, name, description, rate, catagory, price };
+                                        return <ProductOrder {...props}/>
+                                    })}
+
+                                    <div className="d-flex justify-content-between pt-2">
+                                        <p className="fw-bold mb-0">
+                                            Order Details
+                                        </p>
+                                        <p className="text-muted mb-0">
+                                            <span className="fw-bold me-4">
+                                                Total
+                                            </span>{' '}
+                                            {order.totalPrice}₪
+                                        </p>
+                                    </div>
+
+                                    <div className="d-flex justify-content-between pt-2">
+                                        <p className="text-muted mb-0">
+                                            Invoice Number : {orderId}
+                                        </p>
+                                        {/* <p className="text-muted mb-0">
+                                            <span className="fw-bold me-4">
+                                                Discount
+                                            </span>{' '}
+                                            $19.00
+                                        </p> */}
+                                        <p className="text-muted mb-0">
+                                            <span className="fw-bold me-4">
+                                                Delivery Charges
+                                            </span>{' '}
+                                            15₪
+                                        </p>
+                                    </div>
+
+                                    <div className="d-flex justify-content-between">
+                                        <p className="text-muted mb-0">
+                                            Invoice Date : {new Date(parseInt(order.orderDate)).toLocaleDateString("en-US")}
+                                        </p>
+                                        {/* <p className="text-muted mb-0">
+                                            <span className="fw-bold me-4">
+                                                GST 18%
+                                            </span>{' '}
+                                            123
+                                        </p> */}
+                                    </div>
+
+                                    {/* <div className="d-flex justify-content-between mb-5">
+                                        <p className="text-muted mb-0">
+                                            Recepits Voucher : 18KU-62IIK
+                                        </p>
+                                    </div> */}
+                                </div>
+                                <div
+                                    className="card-footer border-0 px-4 py-5"
+                                    style={{
+                                        'background-color': '#a8729a',
+                                        'border-bottom-left-radius': '10px',
+                                        'border-bottom-right-radius': '10px',
+                                    }}
+                                >
+                                    <h5 className="d-flex align-items-center justify-content-end text-white text-uppercase mb-0">
+                                        Total paid:{' '}
+                                        <span className="h2 mb-0 ms-2">
+                                            {15 + parseFloat(order.totalPrice)}₪
+                                        </span>
+                                    </h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            ) : (
+                <div className="spinner">
+                    <div className="spinner-border" role="status">
+                        <span className="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            )}
+
+            <Footer />
+        </>
+    );
+}
+
+export default Order;

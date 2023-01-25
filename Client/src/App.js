@@ -22,6 +22,7 @@ import AdminPanel from '../src/components/pages/AdminPanel';
 import Pnf from '../src/components/pages/Pnf';
 import AdminProtectedRoutes from './components/AdminProtectedRoutes';
 import UserProtectedRoutes from './components/UserProtectedRoutes';
+import Order from './components/pages/Order';
 
 // ** Services Imports
 import { getUser } from '../src/services/userService';
@@ -47,7 +48,7 @@ function App() {
 
     React.useEffect(() => {
         if (cookies.eShopToken) {
-            getUser()
+            getUser(cookies.eShopToken)
                 .then(result => {
                     setUserDetails(result.data);
                 })
@@ -64,7 +65,7 @@ function App() {
             <ToastContainer />
             {/* Wrapping / Passing Token & UserDetails to all components with UseContext */}
             <UserContext.Provider value={userDetails}>
-                <TokenContext.Provider value={() => {}}>
+                <TokenContext.Provider value={() => { }}>
                     <UserCounterContext.Provider value={(lastMessage && lastMessage.data) || 0}>
                         <Router>
                             <ScrollToTop />
@@ -74,21 +75,21 @@ function App() {
 
                                 {/* REGISTER */}
                                 <Route
-                                path="/register"
-                                element={<Login register={true} />}
-                            />
+                                    path="/register"
+                                    element={<Login register={true} />}
+                                />
 
                                 {/* LOGIN */}
                                 <Route
                                     path="/login"
-                                    element={<Login setToken={() => {}} />}
+                                    element={<Login setToken={() => { }} />}
                                 />
-                                
+
                                 {/* shoes&bags */}
-                            <Route
-                                path="/shoes&bags"
-                                element={<Products category={'Shoes&Bags'} />}
-                            />
+                                <Route
+                                    path="/shoes&bags"
+                                    element={<Products category={'Shoes&Bags'} />}
+                                />
 
                                 {/* WOMENS */}
                                 <Route
@@ -133,6 +134,12 @@ function App() {
                                 <Route
                                     path="product/:id"
                                     element={<ProductDetails />}
+                                />
+
+                                {/* ORDER DETAILS */}
+                                <Route
+                                    path="order/:orderId"
+                                    element={<Order />}
                                 />
 
                                 {/* PROTECTED ROUTES (ADMIN ONLY) */}

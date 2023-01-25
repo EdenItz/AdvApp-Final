@@ -14,9 +14,11 @@ const logger = require('./middleware/logger');
 // const login = require('./routes/login'); -- next
 // const profile = require('./routes/profile'); -- next
 // const users = require('./routes/users'); -- next
+const user = require('./routes/user');
 const auth = require('./routes/auth');
 const product = require('./routes/product');
 const cart = require('./routes/cart');
+const order = require('./routes/order');
 const category = require('./routes/category');
 const webSocketHandler = require('./helpers/webSocketHandler')(aWss);
 const cors = require('cors');
@@ -50,12 +52,14 @@ mongoose
 // app.use('/api/profile', profile); -- next
 // app.use('/api/all-users', users); -- next
 
+app.use('/api/profile', user);
 app.use('/api/auth', auth);
 app.use('/api/product', product);
 app.use('/api/carts', cart);
+app.use('/api/order', order);
 app.use('/api/carts/delete-product', cart);
 app.use('/api/category', category);
 
-app.ws('/',  (ws, req) => webSocketHandler.websocketUserCounter(ws, req));
+app.ws('*',  (ws, req) => webSocketHandler.websocketUserCounter(ws, req));
 
 app.listen(PORT, () => console.log('API server started on port - ', PORT));

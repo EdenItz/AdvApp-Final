@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { useCookies } from "react-cookie";
+import { useCookies } from 'react-cookie';
+import { useNavigate } from 'react-router-dom';
 
 // ** Components Imports
 import Navbar from '../Navbar';
@@ -12,9 +13,9 @@ import '../../css/successBtn.css';
 // ** Services Imports
 import {
     getProductsInCart,
-    deleteProducts,
     deleteProductFromCart,
 } from '../../services/cartService';
+import { createOrder } from '../../services/orderService';
 import { errorMsg, successMsg } from '../../services/feedbackService';
 
 function Cart() {
@@ -30,13 +31,21 @@ function Cart() {
         ? cart.reduce((total, item) => total + item.price, 0)
         : null;
 
+    const navigate = useNavigate();
+
     // Delete Products in cart
     const handleDelete = () => {
         setTimeout(() => {
-            deleteProducts(cart, cookies.eShopToken)
-                .then(() => {
+            const productIds = cart.map(product => product.productId);
+            const totalPrice = cart.reduce(
+                (acuumilator, product) => acuumilator + product.price,
+                0,
+            );
+            createOrder({ productIds, totalPrice }, cookies.eShopToken)
+                .then((result) => {
                     successMsg('Payment Successfully!');
                     setIsChanged(!isChanged);
+                    navigate(`/order/${result.data}`);
                 })
                 .catch(err =>
                     errorMsg('Something went wrong! Please try again.'),
@@ -57,7 +66,7 @@ function Cart() {
 
     React.useEffect(() => {
         if (cookies.eShopToken) {
-            getProductsInCart()
+            getProductsInCart(cookies.eShopToken)
                 .then(result => {
                     setCart(result.data);
                     setIsLoading(true);

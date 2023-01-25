@@ -38,10 +38,10 @@ export const resetPasswordWithEmail = async (email) => {
 // GET USER DETAILS - to do
 
 // GET USER DETAILS
-export const getUser = () => {
+export const getUser = (token) => {
     return axios.get(`${api}/profile`, {
         headers: {
-            Authorization: `${sessionStorage.getItem('token')}`,
+            Authorization: `${token}`,
         }, 
     }, {withCredentials: true});
 };

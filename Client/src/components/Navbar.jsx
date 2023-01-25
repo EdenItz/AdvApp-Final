@@ -78,7 +78,7 @@ function Navbar(props) {
                         className="collapse navbar-collapse"
                         id="navbarSupportedContent"
                     >
-                        <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+                        <ul className="navbar-nav mb-2 mb-lg-0">
                             <li className="nav-item">
                                 <NavLink className="nav-link" to="/women">
                                     Women
@@ -121,71 +121,6 @@ function Navbar(props) {
                                     </NavLink>
                                 </li>
                             )}
-
-                            {/* <li className="nav-item dropdown text-light">
-                                <a
-                                className="nav-link dropdown-toggle"
-                                href="#"
-                                    role="button"
-                                    data-bs-toggle="dropdown"
-                                    aria-expanded="false"
-                                >
-                                    <i className="fa-solid fa-user fa-lg hoverIcon"></i>
-                                    <span className="navName">
-                                    {cookies.eShopToken && userDetails.name}
-                                </span>
-                                    dropdown
-                                </a>
-                                <ul className="dropdown-menu">
-                                    <li>
-                                        <a class="dropdown-item" href="#">
-                                            Action
-                                        </a>
-                                    </li>
-                                    {!cookies.eShopToken && (
-                                        <>
-                                            <li>
-                                                <NavLink
-                                                    className="dropdown-item"
-                                                    to="/login"
-                                                >
-                                                    Login
-                                                </NavLink>
-                                            </li>
-                                            <li>
-                                                <NavLink
-                                                    className="dropdown-item"
-                                                    to="/register"
-                                                >
-                                                    Register
-                                                </NavLink>
-                                            </li>
-                                        </>
-                                    )}
-
-                                    {cookies.eShopToken && (
-                                        <>
-                                            <li>
-                                                <NavLink
-                                                    className="dropdown-item"
-                                                    to="/profile"
-                                                >
-                                                    Profile
-                                                </NavLink>
-                                            </li>
-                                            <li>
-                                                <a
-                                                    onClick={handleLogout}
-                                                    className="dropdown-item"
-                                                >
-                                                    <i className="fa-solid fa-power-off"></i>
-                                                    Logout
-                                                </a>
-                                            </li>
-                                        </>
-                                    )}
-                                </ul>
-                            </li> */}
                             <NavDropdown
                                 title={
                                     <span className="navName">
