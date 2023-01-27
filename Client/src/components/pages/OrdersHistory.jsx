@@ -76,8 +76,8 @@ function OrdersHistory({}) {
                         </AccordionSummary>
                         <AccordionDetails>
                             {order?.products?.map((product) => {
-                                const { image, name, description, rate, catagory, price, _id, quantity } = product;
-                                const props = { image, name, description, rate, catagory, price, _id, quantity};
+                                const { image, name, description, rate, category, price, _id, quantity } = product;
+                                const props = { image, name, description, rate, category, price, _id, quantity};
                                 return <ProductOrder key={product._id} {...props}/>
                             })}
                             </AccordionDetails>

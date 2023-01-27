@@ -53,8 +53,8 @@ function Order() {
                                     </div>
                                     
                                     {order?.products?.map((product, idx) => {
-                                        const { image, name, description, rate, catagory, price, _id } = product;
-                                        const props = { image, name, description, rate, catagory, price, _id };
+                                        const { image, name, description, rate, category, price, _id } = product;
+                                        const props = { image, name, description, rate, category, price, _id };
                                         return <ProductOrder key={product._id} {...props} quantity={ order.productIds.filter((currId) => currId == product._id).length} showProgress={true}/>
                                     })}
 
