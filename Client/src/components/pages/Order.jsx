@@ -110,8 +110,8 @@ function Order() {
                                     className="card-footer border-0 px-4 py-5"
                                     style={{
                                         'backgroundColor': '#a8729a',
-                                        'border-bottom-left-radius': '10px',
-                                        'border-bottom-right-radius': '10px',
+                                        'borderBottomLeftRadius': '10px',
+                                        'borderBottomRightRadius': '10px',
                                     }}
                                 >
                                     <h5 className="d-flex align-items-center justify-content-end text-white text-uppercase mb-0">

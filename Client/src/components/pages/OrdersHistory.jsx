@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Accordion, AccordionDetails, AccordionSummary} from '@mui/material';
+import { NavLink } from 'react-router-dom';
+import { Accordion, AccordionDetails, AccordionSummary, Button} from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import Typography from '@mui/material/Typography'
 import { useCookies } from 'react-cookie';
@@ -67,6 +68,11 @@ function OrdersHistory({}) {
                                 {new Date(parseInt(order.orderDate)).toLocaleDateString("en-US")}   
                             </Typography>
                             <Typography sx={{ color: 'text.secondary' }}>total: {order.totalPrice}</Typography>
+                            <Button className='goToOrderBtn'>
+                                <NavLink className="nav-link" to={`/order/${order._id}`}>
+                                  Go to order
+                                </NavLink>
+                            </Button>
                         </AccordionSummary>
                         <AccordionDetails>
                             {order?.products?.map((product) => {

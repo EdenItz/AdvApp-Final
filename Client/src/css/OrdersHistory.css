@@ -6,3 +6,7 @@
 .orderAccordion{
     background: aliceblue;
 }
+
+.goToOrderBtn{
+  margin-left: auto !important
+}
