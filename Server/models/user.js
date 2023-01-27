@@ -12,6 +12,12 @@ const userSchema = new mongoose.Schema({
         minlength: 6,
         unique: true,
     },
+    userId: {
+        type: String,
+        required: true,
+        minlength: 6,
+        unique: true,
+    },
 });
 
 const User = mongoose.model('users', userSchema);

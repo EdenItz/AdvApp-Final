@@ -28,7 +28,7 @@ function Order() {
                         <div className="col-lg-10 col-xl-10">
                             <div
                                 className="card"
-                                style={{ 'border-radius': '10px' }}
+                                style={{ 'borderRadius': '10px' }}
                             >
                                 <div className="card-header px-4 py-5">
                                     <h5 className="text-muted mb-0">
@@ -52,10 +52,10 @@ function Order() {
                                         </p> */}
                                     </div>
                                     
-                                    {order.products.map(product => {
-                                        const { image, name, description, rate, catagory, price } = product;
-                                        const props = { image, name, description, rate, catagory, price };
-                                        return <ProductOrder {...props}/>
+                                    {order?.products?.map((product, idx) => {
+                                        const { image, name, description, rate, catagory, price, _id } = product;
+                                        const props = { image, name, description, rate, catagory, price, _id };
+                                        return <ProductOrder key={product._id} {...props} quantity={ order.productIds.filter((currId) => currId == product._id).length} showProgress={true}/>
                                     })}
 
                                     <div className="d-flex justify-content-between pt-2">
@@ -109,7 +109,7 @@ function Order() {
                                 <div
                                     className="card-footer border-0 px-4 py-5"
                                     style={{
-                                        'background-color': '#a8729a',
+                                        'backgroundColor': '#a8729a',
                                         'border-bottom-left-radius': '10px',
                                         'border-bottom-right-radius': '10px',
                                     }}

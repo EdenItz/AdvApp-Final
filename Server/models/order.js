@@ -10,8 +10,8 @@ const Order = new Schema({
         {
             type: mongoose.Types.ObjectId,
             ref: 'products',
-            required: true
-        }
+            required: true,
+        },
     ],
     fullName: {
         type: String,
@@ -24,7 +24,7 @@ const Order = new Schema({
     orderDate: {
         type: String,
         required: true,
-    }
+    },
 });
 
 module.exports = mongoose.model('orders', Order);

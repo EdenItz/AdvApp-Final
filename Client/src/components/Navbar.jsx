@@ -142,6 +142,9 @@ function Navbar(props) {
 
                                 {cookies.eShopToken && (
                                     <>
+                                        <NavDropdown.Item href="/ordersHistory">
+                                            Orders History
+                                        </NavDropdown.Item>
                                         <NavDropdown.Item href="/profile">
                                             Profile
                                         </NavDropdown.Item>

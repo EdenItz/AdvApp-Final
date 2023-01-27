@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import useWebSocket from 'react-use-websocket';
-import { useCookies } from "react-cookie";
+import { useCookies } from 'react-cookie';
 
 // ** Components Imports
 
@@ -22,6 +22,7 @@ import Pnf from '../src/components/pages/Pnf';
 import AdminProtectedRoutes from './components/AdminProtectedRoutes';
 import UserProtectedRoutes from './components/UserProtectedRoutes';
 import Order from './components/pages/Order';
+import OrdersHistory from './components/pages/OrdersHistory';
 
 // ** Services Imports
 import { getUser } from '../src/services/userService';
@@ -62,8 +63,10 @@ function App() {
             <ToastContainer />
             {/* Wrapping / Passing Token & UserDetails to all components with UseContext */}
             <UserContext.Provider value={userDetails}>
-                <TokenContext.Provider value={() => { }}>
-                    <UserCounterContext.Provider value={(lastMessage && lastMessage.data) || 0}>
+                <TokenContext.Provider value={() => {}}>
+                    <UserCounterContext.Provider
+                        value={(lastMessage && lastMessage.data) || 0}
+                    >
                         <Router>
                             <ScrollToTop />
                             <Routes>
@@ -79,13 +82,15 @@ function App() {
                                 {/* LOGIN */}
                                 <Route
                                     path="/login"
-                                    element={<Login setToken={() => { }} />}
+                                    element={<Login setToken={() => {}} />}
                                 />
 
                                 {/* shoes&bags */}
                                 <Route
                                     path="/shoes&bags"
-                                    element={<Products category={'Shoes&Bags'} />}
+                                    element={
+                                        <Products category={'Shoes&Bags'} />
+                                    }
                                 />
 
                                 {/* WOMENS */}
@@ -144,6 +149,12 @@ function App() {
                                 <Route
                                     path="order/:orderId"
                                     element={<Order />}
+                                />
+
+                                {/* ORDERS HISTORY */}
+                                <Route
+                                    path="ordersHistory"
+                                    element={<OrdersHistory />}
                                 />
 
                                 {/* PROTECTED ROUTES (ADMIN ONLY) */}

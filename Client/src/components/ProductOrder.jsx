@@ -26,23 +26,26 @@ function ProductOrder(props) {
                         <p className="text-muted mb-0 small">{props.price}₪</p>
                     </div>
                 </div>
+                <div className="col-md-2 text-center d-flex justify-content-center align-items-center">
+                    <p className="text-muted mb-0 small">quantity:{props.quantity}</p>
+                </div>
                 {/* <hr className="mb-4" style="background-color: #e0e0e0; opacity: 1;"> */}
-                <div className="row d-flex align-items-center">
+                 {props.showProgress && <div className="row d-flex align-items-center">
                     <div className="col-md-2">
                         <p className="text-muted mb-0 small">Track Order</p>
                     </div>
                     <div className="col-md-10">
                         <div
                             className="progress"
-                            style={{ height: '6px', 'border-radius': '16px' }}
+                            style={{ height: '6px', 'borderRadius': '16px' }}
                         >
                             <div
                                 className="progress-bar"
                                 role="progressbar"
                                 style={{
                                     width: '100%',
-                                    'border-radius': '16px',
-                                    'background-color': '#a8729a',
+                                    'borderRadius': '16px',
+                                    'backgroundColor': '#a8729a',
                                 }}
                                 aria-valuenow="20"
                                 aria-valuemin="0"
@@ -59,6 +62,7 @@ function ProductOrder(props) {
                         </div>
                     </div>
                 </div>
+                }
             </div>
         </div>
     );
