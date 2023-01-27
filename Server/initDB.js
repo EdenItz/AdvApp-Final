@@ -2,6 +2,7 @@
 const mongoose = require('mongoose');
 const Product = require('./models/product');
 const Categories = require('./models/category');
+const Users = require('./models/user');
 
 const DB_URL = process.env.db || 'mongodb://localhost:27017/AdvApp';
 
@@ -50,13 +51,13 @@ const testCategories = [
 ];
 
 // ** Insert Categories
-Categories.insertMany(testCategories)
-    .then(res => {
-        console.log(res);
-    })
-    .catch(error => {
-        console.log(error);
-    });
+// Categories.insertMany(testCategories)
+//     .then(res => {
+//         console.log(res);
+//     })
+//     .catch(error => {
+//         console.log(error);
+//     });
 
 // ** Lets create test products
 
@@ -362,8 +363,25 @@ const testProducts = [
     },
 ];
 
-// ** Insert Products
-Product.insertMany(testProducts)
+// // ** Insert Products
+// Product.insertMany(testProducts)
+//     .then(res => {
+//         console.log(res);
+//     })
+//     .catch(error => {
+//         console.log(error);
+//     });
+
+const testUsers = [
+    {
+        name: 'eden itzhack',
+        email: 'edenitz34@gmail.com',
+        userId: 'Kl6BqcvMqhSI2RIjMu1txSBUky82',
+    },
+];
+
+// ** Insert Categories
+Users.insertMany(testUsers)
     .then(res => {
         console.log(res);
     })
