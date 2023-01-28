@@ -34,6 +34,7 @@ function Navbar(props) {
     const handleLogout = () => {
         setIsChanged(!isChanged);
         removeItem('eShopToken');
+        removeItem('eShopUserID');
         setToken('');
         successMsg('You Logged Out Successfully!');
         navigate('/');
@@ -42,7 +43,7 @@ function Navbar(props) {
     React.useEffect(() => {
         if (cookies.eShopToken) {
             // Get Products From Cart
-            getProductsInCart(cookies.eShopToken)
+            getProductsInCart(cookies.eShopToken, cookies.eShopUserID)
                 .then(result => {
                     setCart(result.data);
                 })

@@ -21,25 +21,26 @@ const productSchema = joi.object({
 router.post('/', auth, async (req, res) => {
     try {
         // Validation for body
-        const { error } = productSchema.validate(req.body);        
+        const { error } = productSchema.validate(req.body);
         if (error) return res.status(400).send(error.message);
-        
-        let user = await User.findOne({ email: req.payload.email });
-        let cart = await Cart.findOne({ userId: user._id });
+
+        const headerUserId = req.headers.userid;
+
+        let cart = await Cart.findOne({ userId: headerUserId });
 
         if (!cart) {
-            await Cart.insertMany([{userId: user._id, active: true}]);
-            cart = await Cart.findOne({ userId: user._id });
+            await Cart.insertMany([{ userId: headerUserId, active: true }]);
+            cart = await Cart.findOne({ userId: headerUserId });
         }
         // return res.status(404).send('No Cart For This User.');
-        
+
         // Add Product to user Cart
         cart.products.push(req.body);
         await cart.save();
         res.status(200).send(cart.products);
     } catch (error) {
         console.log(error);
-        
+
         res.status(400).send(error);
     }
 });
@@ -47,8 +48,9 @@ router.post('/', auth, async (req, res) => {
 // ** Get Products in Cart
 router.get('/', auth, async (req, res) => {
     try {
-        let user = await User.findOne({ email: req.payload.email });
-        let cart = await Cart.findOne({ userId: user._id });
+        const headerUserId = req.headers.userid;
+
+        let cart = await Cart.findOne({ userId: headerUserId });
         if (!cart) return res.status(200).send([]);
 
         res.status(200).send(cart.products);
@@ -60,7 +62,9 @@ router.get('/', auth, async (req, res) => {
 // ** Edit products from Cart
 router.put('/', auth, async (req, res) => {
     try {
-        let cart = await Cart.findOne({ userId: req.payload._id });
+        const headerUserId = req.headers.userid;
+
+        let cart = await Cart.findOne({ userId: headerUserId });
         if (!cart) return res.status(404).send('Theres no such Cart');
 
         await cart.updateOne({ products: [] });
@@ -75,8 +79,9 @@ router.delete('/delete-product/:id', auth, async (req, res) => {
     const prodId = req.params.id;
 
     try {
-        let user = await User.findOne({ email: req.payload.email });
-        let cart = await Cart.findOne({ userId: user._id });
+        const headerUserId = req.headers.userid;
+
+        let cart = await Cart.findOne({ userId: headerUserId });
         if (!cart) return res.status(404).send('Theres no such Cart');
 
         const productFilter = cart.products.filter(

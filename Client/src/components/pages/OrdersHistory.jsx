@@ -51,7 +51,10 @@ function OrdersHistory({}) {
                 return setLoading(false);
             }
 
-            const res = await getHistory(cookies.eShopToken);
+            const res = await getHistory(
+                cookies.eShopToken,
+                cookies.eShopUserID,
+            );
 
             if (!res?.data || !res.data.length) {
                 errorMsg('Something went wrong! Please try again.');

@@ -41,8 +41,12 @@ function Cart() {
                 (acuumilator, product) => acuumilator + product.price,
                 0,
             );
-            createOrder({ productIds, totalPrice }, cookies.eShopToken)
-                .then((result) => {
+            createOrder(
+                { productIds, totalPrice },
+                cookies.eShopToken,
+                cookies.eShopUserID,
+            )
+                .then(result => {
                     successMsg('Payment Successfully!');
                     setIsChanged(!isChanged);
                     navigate(`/order/${result.data}`);
@@ -54,7 +58,7 @@ function Cart() {
     };
 
     const handleDeleteProductFromCart = product => {
-        deleteProductFromCart(product, cookies.eShopToken)
+        deleteProductFromCart(product, cookies.eShopToken, cookies.eShopUserID)
             .then(() => {
                 successMsg(`Product deleted Successfully!`);
                 setIsChanged(!isChanged);
@@ -66,7 +70,7 @@ function Cart() {
 
     React.useEffect(() => {
         if (cookies.eShopToken) {
-            getProductsInCart(cookies.eShopToken)
+            getProductsInCart(cookies.eShopToken, cookies.eShopUserID)
                 .then(result => {
                     setCart(result.data);
                     setIsLoading(true);
@@ -185,7 +189,7 @@ function Cart() {
                                                             Order Subtotal{' '}
                                                         </strong>
                                                         <h5 className="cartItemName">
-                                                            {sum}.00 ₪
+                                                            {sum} ₪
                                                         </h5>
                                                     </li>
 
@@ -194,7 +198,7 @@ function Cart() {
                                                             Tax & Shipping
                                                         </strong>
                                                         <h5 className="cartItemName">
-                                                            {tax}.00 ₪
+                                                            {tax} ₪
                                                         </h5>
                                                     </li>
                                                     <li className="d-flex justify-content-between py-3 border-bottom">
@@ -202,7 +206,7 @@ function Cart() {
                                                             Total
                                                         </strong>
                                                         <h5 className="fw-bold cartItemName">
-                                                            {sum + tax}.00 ₪
+                                                            {sum + tax} ₪
                                                         </h5>
                                                     </li>
                                                 </ul>

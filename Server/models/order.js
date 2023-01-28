@@ -1,9 +1,8 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
 
-const Order = new Schema({
+const orderSchema = new mongoose.Schema({
     userId: {
-        type: mongoose.Types.ObjectId,
+        type: String,
         required: true,
     },
     productIds: [
@@ -13,10 +12,6 @@ const Order = new Schema({
             required: true,
         },
     ],
-    fullName: {
-        type: String,
-        required: true,
-    },
     totalPrice: {
         type: String,
         required: true,
@@ -27,4 +22,5 @@ const Order = new Schema({
     },
 });
 
-module.exports = mongoose.model('orders', Order);
+const Order = mongoose.model('orders', orderSchema);
+module.exports = Order;

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useCookies } from "react-cookie";
+import { useCookies } from 'react-cookie';
 
 import { addToUserCart } from '../../services/cartService';
 import { errorMsg, successMsg } from '../../services/feedbackService';
@@ -24,7 +24,7 @@ function CurrentProduct(props) {
             };
             product.size = currentSize.size;
             product.productId = products._id;
-            addToUserCart(product, cookies.eShopToken)
+            addToUserCart(product, cookies.eShopToken, cookies.eShopUserID)
                 .then(() => {
                     successMsg('Product added successfully!');
                     setCartChange(!cartChange);
@@ -150,7 +150,7 @@ function CurrentProduct(props) {
                             className="btn shiny btn-success btn-lg w-100 "
                         >
                             <i className="fa-solid fa-bag-shopping"> </i> Add To
-                            Bag
+                            Bag{' '}
                         </a>
                     ) : (
                         <Link

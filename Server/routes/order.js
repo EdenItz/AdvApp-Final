@@ -4,7 +4,6 @@ const auth = require('../middleware/auth');
 const joi = require('joi');
 const Order = require('../models/Order');
 const Cart = require('../models/Cart');
-const User = require('../models/User');
 const Product = require('../models/Product');
 
 const productSchema = joi.object({
@@ -17,17 +16,16 @@ router.post('/', auth, async (req, res) => {
         const { error } = productSchema.validate(req.body);
         if (error) return res.status(400).send('details are not as expected');
 
-        let user = await User.findOne({ email: req.payload.email });
-        const { _id, name } = user._doc;
+        const headerUserId = req.headers.userid;
 
-        let cart = await Cart.findOne({ userId: user._id });
+        let cart = await Cart.findOne({ userId: headerUserId });
+
         if (!cart) return res.status(400).send('cart not found');
 
         let order = await Order.insertMany([
             {
-                userId: _id,
+                userId: headerUserId,
                 productIds: req.body.productIds,
-                fullName: name,
                 totalPrice: req.body.totalPrice,
                 orderDate: new Date().getTime().toString(),
             },
@@ -62,14 +60,12 @@ router.get('/:id', async (req, res) => {
 // Get orders history Details by user
 router.get('/', auth, async (req, res) => {
     try {
-        if (!req?.payload?.email)
+        if (!req.payload.email)
             return res.status(400).send('details are not as expected');
 
-        let user = await User.findOne({ email: req.payload.email });
-        const { _id, name } = user._doc;
+        const headerUserId = req.headers.userid;
 
-        let orders = await Order.find({ userId: user._id });
-
+        let orders = await Order.find({ userId: headerUserId });
         let products;
         let returnOrders = [];
         for (let order of orders) {
@@ -79,11 +75,9 @@ router.get('/', auth, async (req, res) => {
                 products: products.map(product => product._doc),
             });
         }
-
         res.status(200).send([...returnOrders]);
     } catch (error) {
         console.log(error);
-
         res.status(400).send('Error in get Product...');
     }
 });
