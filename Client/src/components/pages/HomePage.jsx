@@ -43,11 +43,15 @@ function HomePage() {
             {isLoading ? (
                 <div className="container main">
                     {/* Categories Cards */}
-                    <h1 className="boldTitle text-center pt-3">
-                        <span className="tapered2">Featured Categories</span>
-                    </h1>
-                    <Category />
-                    <hr className="horizontalLine mt-5 mb-4 mx-auto" />
+                    <div className="categoryComponent">
+                        <h1 className="boldTitle text-center pt-3">
+                            <span className="tapered2">
+                                Featured Categories
+                            </span>
+                        </h1>
+                        <Category />
+                        <hr className="horizontalLine mt-5 mb-4 mx-auto" />
+                    </div>
 
                     <h1 className="boldTitle text-center">
                         <span className="tapered2">Women Clothing</span>

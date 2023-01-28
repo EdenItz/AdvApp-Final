@@ -35,7 +35,16 @@ function OrdersHistory({}) {
         const fetchOrders = async () => {
             setLoading(true);
 
-            const res = await getHistory(cookies.eShopToken);
+            // If no cookie return error
+            if (!cookies.eShopToken) {
+                errorMsg('Please login and try again.');
+                return setLoading(false);
+            }
+
+            const res = await getHistory(
+                cookies.eShopToken,
+                cookies.eShopUserID,
+            );
 
             if (!res?.data || !res.data.length) {
                 errorMsg('Something went wrong! Please try again.');

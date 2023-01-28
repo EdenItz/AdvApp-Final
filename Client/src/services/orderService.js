@@ -4,18 +4,20 @@ import { api } from '../globals';
 
 // Post new order
 // Send new order request
-export const createOrder = (orderBody, token) => {
+export const createOrder = (orderBody, token, userId) => {
+    console.log(userId);
+
     return axios.post(
         `${api}/order`,
         orderBody,
         {
-            headers: { Authorization: `${token}` },
+            headers: { Authorization: `${token}`, UserId: `${userId}` },
         },
         { withCredentials: true },
     );
 };
 // Get order history
-export const getHistory = async token => {
+export const getHistory = async (token, userId) => {
     try {
         const data = await axios.get(
             `${api}/order/`,
@@ -35,7 +37,7 @@ export const getHistoryCategoryStatistics = async token => {
         const data = await axios.get(
             `${api}/order/getInfo/historyCategories`,
             {
-                headers: { Authorization: `${token}` },
+                headers: { Authorization: `${token}`, UserId: `${userId}` },
             },
             { withCredentials: true },
         );

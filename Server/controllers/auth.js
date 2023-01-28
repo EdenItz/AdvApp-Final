@@ -4,7 +4,6 @@ const errorHandler = require('../globals').errorHandler;
 const { signJwt } = require('../helpers/jwtHandlers');
 const jwt = require('jsonwebtoken');
 
-
 const register = async (req, res) => {
     if (!req.body.email || !req.body.password || !req.body.name) {
         res.status(400);
@@ -29,10 +28,15 @@ const register = async (req, res) => {
                     res.send(data);
                 })
                 .catch(async error => {
-                    currUser = firebase.auth().currentUser
-                    currUser.delete().then(() => {
-                        res.status(500).send({ error: error });
-                    }).catch(error => { errorHandler(res) })
+                    currUser = firebase.auth().currentUser;
+                    currUser
+                        .delete()
+                        .then(() => {
+                            res.status(500).send({ error: error });
+                        })
+                        .catch(error => {
+                            errorHandler(res);
+                        });
                     errorHandler(res);
                 });
         })
@@ -50,23 +54,30 @@ const logIn = async (req, res) => {
             password: 'password is required',
         });
     }
-    await firebase
-        .auth()
-        .signInWithEmailAndPassword(req.body.email, req.body.password)
-        .then(data => {
-            const token = signJwt(req.body.email);
-            res.cookie('eShopToken', token, { maxAge: 3600 * 1000 });
-            User.findOne({ email: req.body.email })
-                .then(user => {
 
-                    res.status(200).json({ ...data, ...user });
-                })
-                .catch(errorHandler(res));
-        })
-        .catch(e => {
+    try {
+        const data = await firebase
+            .auth()
+            .signInWithEmailAndPassword(req.body.email, req.body.password);
+
+        if (data) {
+            const token = signJwt(req.body.email);
+            // set cookie to client
+            res.cookie('eShopToken', token, { maxAge: 3600 * 1000 });
+            res.cookie('eShopUserID', firebase.auth().currentUser.uid, {
+                maxAge: 3600 * 1000,
+            });
+
+            res.status(200);
+            res.send('Password reset email was sent');
+        } else {
             res.status(500);
             res.send({ fireBaseError: e.message });
-        });
+        }
+    } catch (e) {
+        res.status(500);
+        res.send({ fireBaseError: e.message });
+    }
 };
 
 const verifyEmail = async (req, res) => {
