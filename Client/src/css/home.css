@@ -30,4 +30,8 @@
     .tapered2 {
       font-size: 2.1rem;
     }
+
+    .categoryComponent{
+      display: none;
+    }
   }
