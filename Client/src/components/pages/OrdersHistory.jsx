@@ -14,7 +14,10 @@ import CategoryPieChart from '../CategoryPieChart.js';
 import Navbar from '../Navbar';
 import Footer from '../Footer';
 import ProductOrder from '../ProductOrder';
-import { getHistory } from '../../services/orderService';
+import {
+    getHistory,
+    getHistoryCategoryStatistics,
+} from '../../services/orderService';
 import { errorMsg } from '../../services/feedbackService';
 import { UserContext } from '../../App';
 
@@ -30,26 +33,7 @@ function OrdersHistory({}) {
 
     useEffect(() => {
         const fetchOrders = async () => {
-            let categoryStats = [];
-            const addToCat = (category, quantity) => {
-                if (quantity <= 0 || !category) return;
-
-                const currCatIndex = categoryStats.findIndex(
-                    cat => cat.label === category,
-                );
-
-                if (categoryStats[currCatIndex])
-                    categoryStats[currCatIndex].value += quantity;
-                else categoryStats.push({ label: category, value: quantity });
-            };
-
             setLoading(true);
-
-            // If no cookie return error
-            if (!cookies.eShopToken) {
-                errorMsg('Please login and try again.');
-                return setLoading(false);
-            }
 
             const res = await getHistory(cookies.eShopToken);
 
@@ -59,20 +43,41 @@ function OrdersHistory({}) {
                 // Add quantity to each product and get category stats
                 res.data.forEach(order =>
                     order.products.forEach(product => {
-                        (product.quantity = order.productIds.filter(
+                        product.quantity = order.productIds.filter(
                             currId => currId == product._id,
-                        ).length),
-                            addToCat(product.category, product.quantity);
+                        ).length;
                     }),
                 );
                 setOrders(res.data);
-                setCategoryData(categoryStats);
             }
             setLoading(false);
         };
 
+        // If no cookie return error
+        if (!cookies.eShopToken) {
+            errorMsg('Please login and try again.');
+            return;
+        }
+
         fetchOrders();
+        getCategoriesStats();
     }, []);
+
+    const getCategoriesStats = async () => {
+        const res = await getHistoryCategoryStatistics(cookies.eShopToken);
+
+        console.log(res);
+
+        if (!res?.data || !res.data.length) {
+            return;
+        } else {
+            setCategoryData(
+                res.data.map(categorie => {
+                    return { label: categorie._id, value: categorie.count };
+                }),
+            );
+        }
+    };
 
     return (
         <>

@@ -18,7 +18,22 @@ export const createOrder = (orderBody, token) => {
 export const getHistory = async token => {
     try {
         const data = await axios.get(
-            `${api}/order`,
+            `${api}/order/`,
+            {
+                headers: { Authorization: `${token}` },
+            },
+            { withCredentials: true },
+        );
+        return data;
+    } catch (error) {
+        return error?.response?.data;
+    }
+};
+
+export const getHistoryCategoryStatistics = async token => {
+    try {
+        const data = await axios.get(
+            `${api}/order/getInfo/historyCategories`,
             {
                 headers: { Authorization: `${token}` },
             },

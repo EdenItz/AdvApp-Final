@@ -88,4 +88,44 @@ router.get('/', auth, async (req, res) => {
     }
 });
 
+router.get('/getInfo/historyCategories', auth, async (req, res) => {
+    try {
+        if (!req?.payload?.email)
+            return res.status(400).send('details are not as expected');
+
+        let user = await User.findOne({ email: req.payload.email });
+
+        let orders = await Order.aggregate([
+            {
+                $unwind: { path: '$productIds' },
+            },
+            {
+                $lookup: {
+                    from: 'products',
+                    localField: 'productIds',
+                    foreignField: '_id',
+                    as: 'product',
+                },
+            },
+            {
+                $project: {
+                    category: { $first: '$product.category' },
+                },
+            },
+            {
+                $group: {
+                    _id: '$category',
+                    count: { $count: {} },
+                },
+            },
+        ]);
+
+        res.status(200).send([...orders]);
+    } catch (error) {
+        console.log(error);
+
+        res.status(400).send('Error in get Product...');
+    }
+});
+
 module.exports = router;

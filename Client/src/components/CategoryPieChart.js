@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import * as d3 from 'd3';
+import { getAllCategories } from '../services/categoryService';
 
 function categoryPieChart({
     data = [
