@@ -21,6 +21,7 @@ const register = async (req, res) => {
             const newUser = new User({
                 email: data.user.email,
                 name: req.body.name,
+                userId: data.user.uid
             });
             newUser
                 .save()
