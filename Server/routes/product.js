@@ -12,9 +12,10 @@ const productSchema = joi.object({
     description: joi.string().required().min(6),
     image: joi.string().required(),
     inStock: joi.boolean().required(),
-    hot: joi.boolean().required(),
     productSize: joi.array().items(joi.string()),
 });
+
+const PAGE_SIZE = 24; // page size
 
 // ** Add New Product (Admin Only)
 router.post('/', auth, async (req, res) => {
@@ -45,6 +46,72 @@ router.get('/', async (req, res) => {
         res.status(200).send(products);
     } catch (error) {
         res.status(400).send('Error in get Products');
+    }
+});
+
+// ** Get products by category and search
+router.get('/', async (req, res) => {
+    try {
+        let products = await Product.find();
+        res.status(200).send(products);
+    } catch (error) {
+        res.status(400).send('Error in get Products');
+    }
+});
+
+router.get('/:category', async (req, res) => {
+    // destructure page and limit and set default values
+    const { q, inStock, page = 1, limit = 10 } = req.query;
+    const category = req.params.category;
+
+    try {
+        // execute query with page and limit values
+        let allProducts;
+        if (q) {
+            allProducts = await Product.find({
+                $and: [
+                    {
+                        category: category,
+                        ...(inStock && { inStock: inStock }),
+                    },
+                    { name: { $regex: new RegExp(q, 'i') } },
+                ],
+            })
+                .limit(limit * 1)
+                .skip((page - 1) * limit)
+                .exec();
+        } else {
+            allProducts = await Product.find({
+                category: category,
+                ...(inStock && { inStock: inStock }),
+            })
+                .limit(limit * 1)
+                .skip((page - 1) * limit)
+                .exec();
+        }
+
+        // get total documents in the Posts collection
+        const count = allProducts.length;
+
+        // return response with posts, total pages, and current page
+        res.json({
+            allProducts,
+            totalPages: Math.ceil(count / limit),
+            currentPage: page,
+        });
+    } catch (err) {
+        console.error(err.message);
+    }
+});
+
+// ** Get Product Details by Id
+router.get('/id/:id', async (req, res) => {
+    try {
+        let product = await Product.findOne({ _id: req.params.id });
+        if (!product) return res.status(404).send('Theres no such product');
+        res.status(200).send(product);
+    } catch (error) {
+        res.status(400).send('Error in get Product...');
     }
 });
 
@@ -86,17 +153,6 @@ router.delete('/:id', auth, async (req, res) => {
         res.status(200).send('Product Removed Successfully!');
     } catch (error) {
         res.status(400).send('Error in delete Product');
-    }
-});
-
-// ** Get Product Details by Id
-router.get('/:id', async (req, res) => {
-    try {
-        let product = await Product.findOne({ _id: req.params.id });
-        if (!product) return res.status(404).send('Theres no such product');
-        res.status(200).send(product);
-    } catch (error) {
-        res.status(400).send('Error in get Product...');
     }
 });
 

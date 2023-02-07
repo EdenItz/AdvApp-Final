@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Navbar from './Navbar';
 import Footer from './Footer';
-import { getAllProducts } from '../services/productsService';
+import { getProductsByCategory } from '../services/productsService';
 import Card from './Card';
 
 function Product({ category }) {
@@ -9,13 +9,11 @@ function Product({ category }) {
     const [search, setSearch] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
-    const productsApi = async productCategory => {
-        const request = await getAllProducts();
+    const productsApi = async () => {
+        const request = await getProductsByCategory(category);
+
         if (request.status === 200) {
-            const productsList = request.data.filter(item => {
-                return item.category === productCategory;
-            });
-            setProducts(productsList);
+            setProducts(request.data.allProducts);
             setIsLoading(true);
         }
     };

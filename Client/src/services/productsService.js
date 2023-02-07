@@ -16,9 +16,14 @@ export const getAllProducts = () => {
     return axios.get(`${api}/product`);
 };
 
+// Get By Category Name
+export const getProductsByCategory = category => {
+    return axios.get(`${api}/product/${category}`);
+};
+
 // Get product by ID
 export const getProductById = id => {
-    return axios.get(`${api}/product/${id}`);
+    return axios.get(`${api}/product/id/${id}`);
 };
 
 // Edit Products

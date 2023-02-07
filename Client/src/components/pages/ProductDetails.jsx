@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useFetch } from '../../hooks/useFetch';
+import { getProductById } from '../../services/productsService';
 import Navbar from '../Navbar';
 import Footer from '../Footer';
 
@@ -11,18 +12,25 @@ import RandomProducts from '../RandomProducts';
 
 function ProductDetails() {
     const { id } = useParams();
-    const api = 'http://localhost:3000/api/';
-    const [products] = useFetch(`${api}product/${id}`);
+
+    const [products, setProducts] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
 
     // Update Cart icon When Adding New Product
     const [cartChange, setCartChange] = useState(false);
 
     React.useEffect(() => {
-        setTimeout(() => {
-            setIsLoading(true);
-        }, 500);
-    }, []);
+        async function fetchData() {
+            const response = await getProductById(id);
+
+            if (response.status == 200) {
+                setProducts(response.data);
+                setIsLoading(true);
+            }
+        }
+        fetchData();
+    }, [id]);
+
     return (
         <>
             <Navbar cartChange={cartChange} />

@@ -29,10 +29,6 @@ const productSchema = new mongoose.Schema({
         type: Boolean,
         required: true,
     },
-    hot: {
-        type: Boolean,
-        required: true,
-    },
     rate: {
         type: String,
         default: '0.0',

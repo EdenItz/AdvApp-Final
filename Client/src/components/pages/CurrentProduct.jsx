@@ -39,7 +39,6 @@ function CurrentProduct(props) {
             <div className="row content my-4">
                 {/* Image Div */}
                 <div className="leftDiv col-6 shiny">
-                    {products.hot ? <div className="badge">Hot</div> : null}
                     {/* Big Screen Left Image */}
                     <img
                         className="productDetailsImage img-fluid"
