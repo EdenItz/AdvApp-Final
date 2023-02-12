@@ -16,6 +16,7 @@ export const createOrder = (orderBody, token, userId) => {
         { withCredentials: true },
     );
 };
+
 // Get order history
 export const getHistory = async (token, userId) => {
     try {
@@ -32,7 +33,7 @@ export const getHistory = async (token, userId) => {
     }
 };
 
-export const getHistoryCategoryStatistics = async token => {
+export const getHistoryCategoryStatistics = async (token, userId) => {
     try {
         const data = await axios.get(
             `${api}/order/getInfo/historyCategories`,
