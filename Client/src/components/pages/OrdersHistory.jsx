@@ -23,7 +23,7 @@ import { UserContext } from '../../App';
 
 import '../../css/OrdersHistory.css';
 
-function OrdersHistory({}) {
+function OrdersHistory({ }) {
     const [loading, setLoading] = useState(false);
     const [orders, setOrders] = useState([]);
     const [categoryData, setCategoryData] = useState([]);
@@ -73,7 +73,7 @@ function OrdersHistory({}) {
     }, []);
 
     const getCategoriesStats = async () => {
-        const res = await getHistoryCategoryStatistics(cookies.eShopToken);
+        const res = await getHistoryCategoryStatistics(cookies.eShopToken, cookies.eShopUserID);
 
         console.log(res);
 

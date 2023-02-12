@@ -84,12 +84,12 @@ router.get('/', auth, async (req, res) => {
 
 router.get('/getInfo/historyCategories', auth, async (req, res) => {
     try {
-        if (!req.payload.email)
-            return res.status(400).send('details are not as expected');
-
-        let user = await User.findOne({ email: req.payload.email });
+        const headerUserId = req.headers.userid;
 
         let orders = await Order.aggregate([
+            {
+                $match: { userId: headerUserId }
+            },
             {
                 $unwind: { path: '$productIds' },
             },
