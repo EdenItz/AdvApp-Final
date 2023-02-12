@@ -75,7 +75,7 @@ function OrdersHistory({}) {
     const getCategoriesStats = async () => {
         const res = await getHistoryCategoryStatistics(cookies.eShopToken);
 
-        console.log(res);
+        // console.log(res);
 
         if (!res?.data || !res.data.length) {
             return;

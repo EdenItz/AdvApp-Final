@@ -22,7 +22,7 @@ export const getHistory = async (token, userId) => {
         const data = await axios.get(
             `${api}/order/`,
             {
-                headers: { Authorization: `${token}` },
+                headers: { Authorization: `${token}`, UserId: `${userId}` },
             },
             { withCredentials: true },
         );

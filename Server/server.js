@@ -1,7 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 require('dotenv').config();
-const cookieParser = require('cookie-parser')
+const cookieParser = require('cookie-parser');
 
 const app = express();
 const expressWs = require('express-ws')(app);
@@ -23,7 +23,7 @@ const category = require('./routes/category');
 const webSocketHandler = require('./helpers/webSocketHandler')(aWss);
 const cors = require('cors');
 
-const dbUrl = process.env.db || 'mongodb://localhost:27017/AdvApp';
+const DB_URL = process.env.db || 'mongodb://127.0.0.1:27017/AdvApp';
 
 app.use(express.json());
 const corsOptions = {
@@ -40,9 +40,17 @@ app.use(logger);
 
 // DB Connection
 mongoose
-    .connect(dbUrl, { useNewUrlParser: true })
-    .then(() => console.log('Connected to MongoDB'))
-    .catch(() => console.log('Cannot connect to server'));
+    .connect(DB_URL, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+    })
+    .then(() => {
+        console.log('Connected to the database!');
+    })
+    .catch(err => {
+        console.log('Cannot connect to the database!', err);
+        process.exit();
+    });
 
 // End Points
 // app.use('/api/register', register); -- next
@@ -58,6 +66,6 @@ app.use('/api/order', order);
 app.use('/api/carts/delete-product', cart);
 app.use('/api/category', category);
 
-app.ws('*',  (ws, req) => webSocketHandler.websocketUserCounter(ws, req));
+app.ws('*', (ws, req) => webSocketHandler.websocketUserCounter(ws, req));
 
 app.listen(PORT, () => console.log('API server started on port - ', PORT));
