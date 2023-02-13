@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import Navbar from '../Navbar';
 import Footer from '../Footer';
 import Category from '../Category';
+import MainProductFilter from '../MainProductFilter';
 import '../../css/categoryCard.css';
 import '../../css/card.css';
 
@@ -52,6 +53,7 @@ function HomePage() {
                         <Category />
                         <hr className="horizontalLine mt-5 mb-4 mx-auto" />
                     </div>
+                    <MainProductFilter/>
 
                     <h1 className="boldTitle text-center">
                         <span className="tapered2">Women Clothing</span>
