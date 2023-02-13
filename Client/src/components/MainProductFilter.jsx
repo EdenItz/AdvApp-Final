@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 
-const MainProductFilter = () => {
+import { getFilteredProducts } from '../services/productsService';
+
+const MainProductFilter = ({ setProducts }) => {
     const [filter, setFilter] = useState({
         productName: '',
         productCategory: '',
@@ -20,10 +22,7 @@ const MainProductFilter = () => {
                 selected => selected.value === e.target.value,
             ) !== -1;
         let isProductInStockTypeIsUsed =
-            type === 'productInStock'
-                ? selectedTags.findIndex(selected => selected.type === type) !==
-                  -1
-                : false;
+           selectedTags.findIndex(selected => selected.type === type) !== -1;
         if (!isFilterUsed && !isProductInStockTypeIsUsed) {
             setFilter({ ...filter, [e.target.name]: e.target.value });
             setSelectedTags([...selectedTags, { type, value: e.target.value }]);
@@ -34,10 +33,24 @@ const MainProductFilter = () => {
         setSelectedTags(selectedTags.filter((tag, i) => i !== index));
     };
 
-    const handleSubmit = e => {
+    const handleSubmit = async e => {
         e.preventDefault();
         // Perform submit logic here
-        console.log('Submitting filters:', filter);
+        const { productCategory, productName, productInStock } = filter;
+
+        let products = await getFilteredProducts(
+            productCategory,
+            productName,
+            productInStock,
+        );
+
+        setProducts(products.data.allProducts);
+        setFilter({
+            productName: '',
+            productCategory: '',
+            productInStock: '',
+        });
+        // setSelectedTags([]);
     };
 
     return (
@@ -101,8 +114,8 @@ const MainProductFilter = () => {
                                 <option value="" disabled>
                                     In stock
                                 </option>
-                                <option value="InStock">Only in Stock</option>
-                                <option value="All">All products</option>
+                                <option value="true">Only in Stock</option>
+                                <option value="false">All products</option>
                             </Form.Control>
                         </Col>
                     </Row>

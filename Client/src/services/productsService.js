@@ -34,6 +34,11 @@ export const editProduct = product => {
     });
 };
 
+// Edit Products
+export const getFilteredProducts = (category = "", productName = "", isInStock) => {
+    return axios.get(`${api}/product/${category}/?q=${productName}&inStock=${isInStock}`);
+};
+
 // Delete Product
 export const deleteProduct = product => {
     return axios.delete(`${api}/product/${product._id}`, {
