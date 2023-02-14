@@ -46,7 +46,7 @@ function App() {
 
     React.useEffect(() => {
         if (cookies.eShopToken) {
-            getUser(cookies.eShopToken)
+            getUser(cookies.eShopToken, cookies.eShopUserID)
                 .then(result => {
                     setUserDetails(result.data);
                 })

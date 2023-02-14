@@ -7,7 +7,7 @@ const User = require('../models/User');
 // ** Get Products in Cart
 router.get('/', auth, async (req, res) => {
     try {
-        let user = await User.findOne({ userId: req.payload._id });
+        let user = await User.findOne({ userId: req.headers.userid });
         if (!user) return res.status(400).send('Wrong user');
         const {_id: _, ...newUser} = user._doc;
         res.status(200).send(newUser);

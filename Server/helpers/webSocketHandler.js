@@ -9,8 +9,10 @@ module.exports = (aWss) => ({
         aWss.clients.forEach(client => {
             client.send(counter);
         });
+
         if (token && !usersTokens[token]) {
             ++counter;
+
             usersTokens[token] = true;
 
             ws.on('close', function close() {
@@ -21,5 +23,7 @@ module.exports = (aWss) => ({
                 usersTokens[token] = false
             });
         }
+        
+        
     }
 })

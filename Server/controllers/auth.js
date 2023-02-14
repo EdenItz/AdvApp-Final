@@ -3,6 +3,7 @@ const User = require('../models/User');
 const errorHandler = require('../globals').errorHandler;
 const { signJwt } = require('../helpers/jwtHandlers');
 const jwt = require('jsonwebtoken');
+const UpdateSocket = require('../helpers/webSocketHandler');
 
 const register = async (req, res) => {
     if (!req.body.email || !req.body.password || !req.body.name) {
@@ -68,6 +69,7 @@ const logIn = async (req, res) => {
             res.cookie('eShopUserID', firebase.auth().currentUser.uid, {
                 maxAge: 3600 * 1000,
             });
+
 
             res.status(200);
             res.send('Password reset email was sent');

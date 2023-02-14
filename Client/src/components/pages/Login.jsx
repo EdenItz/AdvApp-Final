@@ -10,7 +10,7 @@ import Footer from '../Footer';
 import { logIn as logInApi, resetPasswordWithEmail, register as registerApi } from '../../services/userService';
 import '../../css/login.scss';
 
-function Register({ register = false }) {
+function Register({ register = false, updateLogin }) {
     const [loading, setLoading] = useState(false);
     const [passResetLoading, setPassResetLoading] = useState(false);
     const [email, setEmail] = useState('');
@@ -57,7 +57,8 @@ function Register({ register = false }) {
             Swal.fire(`Oops...`, `${res.fireBaseError}`, 'error')
         } else if (res.status == 200) {
             setLoading(false);
-            navigate("/");
+            navigate(0);
+            navigate('/');
         }
         setLoading(false);
     };

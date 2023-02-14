@@ -37,6 +37,7 @@ function Navbar(props) {
         removeItem('eShopUserID');
         setToken('');
         successMsg('You Logged Out Successfully!');
+        navigate(0);
         navigate('/');
     };
 
