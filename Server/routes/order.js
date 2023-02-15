@@ -40,6 +40,31 @@ router.post('/', auth, async (req, res) => {
     }
 });
 
+router.get('/usersSum', async (req, res) => {
+    try {
+        const mapFunction = function () {
+            emit(this.userId, this.totalPrice);
+        };
+
+        const reduceFunction = function (key, values) {
+            values = values.map(value => parseInt(value));
+            return Array.sum(values);
+        };
+
+        Order.mapReduce({
+            map: mapFunction,
+            reduce: reduceFunction,
+        }, function (err, results) {
+            if (err) throw err;
+            res.status(200).send(results.results.map(r => ({...r, value: parseInt(r.value)})));
+        });
+    } catch (error) {
+        console.log(error);
+
+        res.status(400).send('Error in get Product...');
+    }
+});
+
 // Get order Details by id
 router.get('/:id', async (req, res) => {
     try {
@@ -56,6 +81,8 @@ router.get('/:id', async (req, res) => {
         res.status(400).send('Error in get Product...');
     }
 });
+
+
 
 // Delete order by id
 router.post('/delete/:id', async (req, res) => {
@@ -134,5 +161,6 @@ router.get('/getInfo/historyCategories', auth, async (req, res) => {
         res.status(400).send('Error in get Product...');
     }
 });
+
 
 module.exports = router;
