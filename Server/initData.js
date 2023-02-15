@@ -122,7 +122,7 @@ function productConversion(catData, product) {
         category: catData.name,
         description: product?.description,
         image: product?.images[0],
-        inStock: !Math.round(Math.random()),
+        inStock: (Math.round(Math.random() * 6) > 1),
         rate: product?.rating,
         productSize: catData.productSize,
     };

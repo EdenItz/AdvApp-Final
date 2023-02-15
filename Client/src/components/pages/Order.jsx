@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useFetch } from '../../hooks/useFetch';
 import Navbar from '../Navbar';
 import ProductOrder from '../ProductOrder';
@@ -15,6 +15,7 @@ function Order() {
     const api = 'http://localhost:3000/api/';
     const [cookies] = useCookies();
     const [order] = useFetch(`${api}order/${orderId}`);
+    const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
 
     React.useEffect(() => {
