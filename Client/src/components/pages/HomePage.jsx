@@ -28,7 +28,7 @@ function HomePage() {
     const kidsCloth = products.filter(item => item.category == 'Kids');
 
     function handleSubmit(products) {
-        setFilterProducts()
+        setFilterProducts();
     }
 
     useEffect(() => {
@@ -59,8 +59,12 @@ function HomePage() {
                         <Category />
                         <hr className="horizontalLine mt-5 mb-4 mx-auto" />
                     </div>
-                    <MainProductFilter setProducts={(products) => setFilterProducts(products)} />
-                    {filteredProducts && filteredProducts.length !== 0 ? getFilteredProducts(filteredProducts) :(
+                    <MainProductFilter
+                        setProducts={products => setFilterProducts(products)}
+                    />
+                    {filteredProducts && filteredProducts.length !== 0 ? (
+                        getFilteredProducts(filteredProducts)
+                    ) : (
                         <>
                             <h1 className="boldTitle text-center">
                                 <span className="tapered2">Women Clothing</span>
@@ -194,24 +198,28 @@ function HomePage() {
 
 function getFilteredProducts(products) {
     return (
-        <div className="container main products">
-            {products.map((product, inx) => 
-                <Card
-                    _id={product._id}
-                    hot={product.hot}
-                    image={product.image}
-                    category={product.category}
-                    description={product.description}
-                    rate={product.rate}
-                    name={product.name}
-                    price={product.price}
-                    inStock={product.inStock}
-                    key={product._id}
-                />
-            )}
-        </div>
+        <>
+            <h1 className="boldTitle text-center">
+                <span className="tapered2">Filtered products</span>
+            </h1>
+            <div className="container main products">
+                {products.map((product, inx) => (
+                    <Card
+                        _id={product._id}
+                        hot={product.hot}
+                        image={product.image}
+                        category={product.category}
+                        description={product.description}
+                        rate={product.rate}
+                        name={product.name}
+                        price={product.price}
+                        inStock={product.inStock}
+                        key={product._id}
+                    />
+                ))}
+            </div>
+        </>
     );
 }
-
 
 export default HomePage;

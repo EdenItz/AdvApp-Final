@@ -35,7 +35,7 @@ export const editProduct = product => {
 };
 
 // Edit Products
-export const getFilteredProducts = (category = "", productName = "", isInStock) => {
+export const getFilteredProducts = (category = "", productName = "", isInStock = "") => {
     return axios.get(`${api}/product/${category}/?q=${productName}&inStock=${isInStock}`);
 };
 

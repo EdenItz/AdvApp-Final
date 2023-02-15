@@ -23,7 +23,7 @@
     height: 10em;
     padding: 0.25em;
     border-radius: 20rem;
-    margin-top: -10em;
+    /* margin-top: -10em; */
     box-shadow: 0 0 0.1em rgba(0, 0, 0, 0.35);
   }
   

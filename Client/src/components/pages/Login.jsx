@@ -58,6 +58,7 @@ function Register({ register = false, updateLogin }) {
         } else if (res.status == 200) {
             setLoading(false);
             navigate('/');
+            navigate(0);
         }
         setLoading(false);
     };

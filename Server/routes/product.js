@@ -62,7 +62,7 @@ router.get('/', async (req, res) => {
 router.get('/:category', async (req, res) => {
     // destructure page and limit and set default values
     const { q, inStock, page = 1, limit = 10 } = req.query;
-    const category = req.params.category;
+    const category = req.params.category !== "all" ? req.params.category : "";
 
     try {
         // execute query with page and limit values
@@ -71,8 +71,8 @@ router.get('/:category', async (req, res) => {
             allProducts = await Product.find({
                 $and: [
                     {
-                        category: category,
                         ...(inStock && { inStock: inStock }),
+                        ...(category && { category: category }),
                     },
                     { name: { $regex: new RegExp(q, 'i') } },
                 ],
@@ -82,7 +82,7 @@ router.get('/:category', async (req, res) => {
                 .exec();
         } else {
             allProducts = await Product.find({
-                category: category,
+                ...(category && { category: category }),
                 ...(inStock && { inStock: inStock }),
             })
                 .limit(limit * 1)

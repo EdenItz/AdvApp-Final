@@ -25,18 +25,22 @@ const MainProductFilter = ({ setProducts }) => {
            selectedTags.findIndex(selected => selected.type === type) !== -1;
         if (!isFilterUsed && !isProductInStockTypeIsUsed) {
             setFilter({ ...filter, [e.target.name]: e.target.value });
-            setSelectedTags([...selectedTags, { type, value: e.target.value }]);
+            setSelectedTags([...selectedTags, { type, name: e.target.name, value: e.target.value }]);
         }
     };
 
-    const handleRemoveTag = index => {
+    const handleRemoveTag = (tag, index) => {
         setSelectedTags(selectedTags.filter((tag, i) => i !== index));
+        setFilter(tag.name);
+        setFilter({ ...filter, [tag.name]: "" });
     };
 
     const handleSubmit = async e => {
         e.preventDefault();
         // Perform submit logic here
-        const { productCategory, productName, productInStock } = filter;
+        let { productCategory, productName, productInStock } = filter;
+
+        productCategory = productCategory === "" ? "all" : productCategory;
 
         let products = await getFilteredProducts(
             productCategory,
@@ -45,11 +49,11 @@ const MainProductFilter = ({ setProducts }) => {
         );
 
         setProducts(products.data.allProducts);
-        setFilter({
-            productName: '',
-            productCategory: '',
-            productInStock: '',
-        });
+        // setFilter({
+        //     productName: '',
+        //     productCategory: '',
+        //     productInStock: '',
+        // });
         // setSelectedTags([]);
     };
 
@@ -63,7 +67,7 @@ const MainProductFilter = ({ setProducts }) => {
                         </Button>
                         <Button
                             variant="outline-danger"
-                            onClick={() => handleRemoveTag(index)}
+                            onClick={() => handleRemoveTag(tag, index)}
                         >
                             x
                         </Button>
@@ -121,7 +125,7 @@ const MainProductFilter = ({ setProducts }) => {
                     </Row>
                     <div>
                         <Button type="submit" variant="primary">
-                            Submit
+                            Search
                         </Button>
                     </div>
                 </Form.Group>
