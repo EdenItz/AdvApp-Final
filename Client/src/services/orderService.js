@@ -17,6 +17,22 @@ export const createOrder = (orderBody, token, userId) => {
     );
 };
 
+export const deleteOrder = async (orderId, token, userId) => {
+    try {
+        const data = await axios.post(
+            `${api}/order/delete/${orderId}`,
+            {
+                headers: { Authorization: `${token}`, UserId: `${userId}` },
+            },
+            { withCredentials: true }
+        );
+        console.log(data)
+        return data;
+    } catch (error) {
+        return error?.response?.data;
+    }
+};
+
 // Get order history
 export const getHistory = async (token, userId) => {
     try {

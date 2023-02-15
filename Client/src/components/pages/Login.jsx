@@ -57,7 +57,6 @@ function Register({ register = false, updateLogin }) {
             Swal.fire(`Oops...`, `${res.fireBaseError}`, 'error')
         } else if (res.status == 200) {
             setLoading(false);
-            navigate(0);
             navigate('/');
         }
         setLoading(false);

@@ -10,10 +10,6 @@ const PORT = process.env.PORT || 3000;
 
 // ** Imports
 const logger = require('./middleware/logger');
-// const register = require('./routes/register'); -- next
-// const login = require('./routes/login'); -- next
-// const profile = require('./routes/profile'); -- next
-// const users = require('./routes/users'); -- next
 const user = require('./routes/user');
 const auth = require('./routes/auth');
 const product = require('./routes/product');

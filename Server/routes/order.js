@@ -57,6 +57,19 @@ router.get('/:id', async (req, res) => {
     }
 });
 
+// Delete order by id
+router.post('/delete/:id', async (req, res) => {
+    try {
+        let data = await Order.deleteOne({ _id: req.params.id });
+
+        console.log(data)
+        res.status(200).send({ data });
+    } catch (error) {
+        console.log(error);
+        res.status(400).send('Error in delete order...');
+    }
+});
+
 // Get orders history Details by user
 router.get('/', auth, async (req, res) => {
     try {
