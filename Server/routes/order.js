@@ -51,13 +51,21 @@ router.get('/usersSum', async (req, res) => {
             return Array.sum(values);
         };
 
-        Order.mapReduce({
-            map: mapFunction,
-            reduce: reduceFunction,
-        }, function (err, results) {
-            if (err) throw err;
-            res.status(200).send(results.results.map(r => ({...r, value: parseInt(r.value)})));
-        });
+        Order.mapReduce(
+            {
+                map: mapFunction,
+                reduce: reduceFunction,
+            },
+            function (err, results) {
+                if (err) throw err;
+                res.status(200).send(
+                    results.results.map(r => ({
+                        ...r,
+                        value: parseInt(r.value),
+                    })),
+                );
+            },
+        );
     } catch (error) {
         console.log(error);
 
@@ -82,14 +90,12 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-
-
 // Delete order by id
 router.post('/delete/:id', async (req, res) => {
     try {
         let data = await Order.deleteOne({ _id: req.params.id });
 
-        console.log(data)
+        console.log(data);
         res.status(200).send({ data });
     } catch (error) {
         console.log(error);
@@ -128,7 +134,7 @@ router.get('/getInfo/historyCategories', auth, async (req, res) => {
 
         let orders = await Order.aggregate([
             {
-                $match: { userId: headerUserId }
+                $match: { userId: headerUserId },
             },
             {
                 $unwind: { path: '$productIds' },
@@ -161,6 +167,5 @@ router.get('/getInfo/historyCategories', auth, async (req, res) => {
         res.status(400).send('Error in get Product...');
     }
 });
-
 
 module.exports = router;
